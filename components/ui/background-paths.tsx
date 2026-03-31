@@ -14,14 +14,13 @@ function FloatingPaths({ position }: { position: number }) {
         } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
             684 - i * 5 * position
         } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
-        color: `rgba(15,23,42,${0.1 + i * 0.03})`,
         width: 0.5 + i * 0.03,
     }));
 
     return (
         <div className="absolute inset-0 pointer-events-none">
             <svg
-                className="w-full h-full text-slate-950 dark:text-white"
+                className="w-full h-full"
                 viewBox="0 0 696 316"
                 fill="none"
             >
@@ -30,9 +29,9 @@ function FloatingPaths({ position }: { position: number }) {
                     <motion.path
                         key={path.id}
                         d={path.d}
-                        stroke="currentColor"
+                        stroke="url(#pathGradient)"
                         strokeWidth={path.width}
-                        strokeOpacity={0.1 + path.id * 0.03}
+                        strokeOpacity={0.08 + path.id * 0.025}
                         initial={{ pathLength: 0.3, opacity: 0.6 }}
                         animate={{
                             pathLength: 1,
@@ -46,6 +45,13 @@ function FloatingPaths({ position }: { position: number }) {
                         }}
                     />
                 ))}
+                <defs>
+                    <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#e85d04" />
+                        <stop offset="50%" stopColor="#f48c06" />
+                        <stop offset="100%" stopColor="#e85d04" />
+                    </linearGradient>
+                </defs>
             </svg>
         </div>
     );
@@ -76,6 +82,15 @@ export function BackgroundPaths({
                     transition={{ duration: 2 }}
                     className="max-w-4xl mx-auto"
                 >
+                    <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.6 }}
+                        className="text-[11px] uppercase tracking-[0.3em] text-[#e85d04]/60 font-medium mb-8"
+                    >
+                        Meisterbetrieb seit 1972
+                    </motion.p>
+
                     <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold mb-8 tracking-tighter">
                         {words.map((word, wordIndex) => (
                             <span
@@ -95,8 +110,7 @@ export function BackgroundPaths({
                                             stiffness: 150,
                                             damping: 25,
                                         }}
-                                        className="inline-block text-transparent bg-clip-text
-                                        bg-gradient-to-r from-white to-white/80"
+                                        className="inline-block text-white"
                                     >
                                         {letter}
                                     </motion.span>
@@ -110,7 +124,7 @@ export function BackgroundPaths({
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.8, duration: 0.8 }}
-                            className="text-base sm:text-lg text-[#666] max-w-xl mx-auto mb-10 leading-relaxed"
+                            className="text-[15px] sm:text-lg text-white/50 max-w-xl mx-auto mb-12 leading-relaxed"
                         >
                             {subtitle}
                         </motion.p>
@@ -123,10 +137,10 @@ export function BackgroundPaths({
                             transition={{ delay: 1, duration: 0.6 }}
                             className="flex flex-col sm:flex-row items-center justify-center gap-3"
                         >
-                            <div className="inline-block group relative bg-gradient-to-b from-white/10 to-black/10 p-px rounded-2xl backdrop-blur-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                            <div className="inline-block group relative bg-gradient-to-b from-[#e85d04]/20 to-[#e85d04]/5 p-px rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
                                 <Button
                                     variant="ghost"
-                                    className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md bg-black/95 hover:bg-black/100 text-white transition-all duration-300 group-hover:-translate-y-0.5 border border-white/10 hover:shadow-md"
+                                    className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md bg-[#060606]/95 hover:bg-[#060606] text-white transition-all duration-300 group-hover:-translate-y-0.5 border border-[#e85d04]/20 hover:border-[#e85d04]/40 hover:shadow-md"
                                     asChild
                                 >
                                     <Link href="/kontakt">
@@ -141,7 +155,7 @@ export function BackgroundPaths({
                             </div>
                             <a
                                 href="tel:08931926484"
-                                className="px-6 py-3 text-[14px] text-[#666] rounded-full border border-white/[0.06] hover:border-white/[0.12] hover:text-white transition-all"
+                                className="px-6 py-3 text-[14px] text-white/40 rounded-full border border-white/[0.08] hover:border-white/[0.15] hover:text-white/70 transition-all"
                             >
                                 (089) 319 26 84
                             </a>

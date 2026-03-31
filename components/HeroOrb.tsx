@@ -36,7 +36,7 @@ export function Marquee() {
       <div className="flex animate-[marquee_30s_linear_infinite] whitespace-nowrap">
         {[...items, ...items].map((t, i) => (
           <span key={i} className="mx-8 text-[11px] text-[#333] uppercase tracking-[0.2em] flex items-center gap-4">
-            <span className="w-[3px] h-[3px] rounded-full bg-[#dc2626]/30" />
+            <span className="w-[3px] h-[3px] rounded-full bg-[#e85d04]/30" />
             {t}
           </span>
         ))}
