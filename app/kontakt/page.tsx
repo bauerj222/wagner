@@ -2,231 +2,217 @@
 
 import { motion } from "framer-motion";
 
-const fadeIn = {
+const ease = [0.22, 1, 0.36, 1] as const;
+const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7, ease: [0.32, 0.72, 0, 1] as const },
-};
+  viewport: { once: true, margin: "-60px" },
+  transition: { duration: 0.7, delay, ease },
+});
 
-const CONTACT_INFO = [
-  {
-    icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z",
-    label: "Adresse",
-    value: "Erfurter Straße 7\n85386 Eching",
-    href: "https://maps.google.com/?q=Erfurter+Straße+7+85386+Eching",
-  },
-  {
-    icon: "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z",
-    label: "Telefon",
-    value: "(089) 319 26 84",
-    href: "tel:08931926484",
-  },
-  {
-    icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
-    label: "Fax",
-    value: "(089) 319 66 51",
-    href: null,
-  },
-  {
-    icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
-    label: "E-Mail",
-    value: "mail@wagner-eching.de",
-    href: "mailto:mail@wagner-eching.de",
-  },
+const hours = [
+  { day: "Montag \u2013 Donnerstag", time: "07:00 \u2013 16:30 Uhr" },
+  { day: "Freitag", time: "07:00 \u2013 12:00 Uhr" },
+  { day: "Samstag & Sonntag", time: "Geschlossen" },
 ];
 
-const HOURS = [
-  { day: "Montag", time: "07:00 – 16:30" },
-  { day: "Dienstag", time: "07:00 – 16:30" },
-  { day: "Mittwoch", time: "07:00 – 16:30" },
-  { day: "Donnerstag", time: "07:00 – 16:30" },
-  { day: "Freitag", time: "07:00 – 12:00" },
-  { day: "Samstag", time: "Geschlossen" },
-  { day: "Sonntag", time: "Geschlossen" },
-];
-
-export default function Kontakt() {
+export default function KontaktPage() {
   return (
-    <main>
-      {/* Hero */}
-      <section className="pt-32 pb-16 lg:pt-40 lg:pb-20 px-4 bg-gradient-to-br from-white via-white to-primary-50">
-        <div className="max-w-7xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
-          >
-            <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-red-500/10 text-red-500 mb-5">
+    <main className="min-h-screen bg-[#0f1115]">
+      {/* Header */}
+      <section className="pt-32 pb-16 lg:pt-40 lg:pb-20 px-6 lg:px-8 border-b border-zinc-800/30">
+        <div className="max-w-[1100px] mx-auto">
+          <motion.div className="flex items-center gap-3 mb-6" {...fadeUp()}>
+            <div className="h-px w-8 bg-amber-500/40" />
+            <span className="text-[11px] text-amber-500/70 uppercase tracking-[0.3em] font-medium">
               Kontakt
             </span>
-            <h1 className="text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6">
-              Sprechen Sie <span className="text-red-500">mit uns</span>
-            </h1>
-            <p className="text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed">
-              Ob Beratung, Angebot oder Serviceanfrage — wir sind persönlich für Sie da.
-              Rufen Sie an oder schreiben Sie uns.
-            </p>
+          </motion.div>
+          <motion.h1
+            className="text-4xl lg:text-5xl font-bold text-zinc-100 tracking-tight"
+            {...fadeUp(0.1)}
+          >
+            Sprechen Sie uns an
+          </motion.h1>
+          <motion.p className="text-zinc-400 mt-4 max-w-lg" {...fadeUp(0.2)}>
+            Wir beraten Sie gerne pers&ouml;nlich &ndash; telefonisch, per
+            E-Mail oder direkt vor Ort in Eching.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Contact Cards + Hours */}
+      <section className="py-20 lg:py-28 px-6 lg:px-8 border-b border-zinc-800/30">
+        <div className="max-w-[1100px] mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {/* Address */}
+            <motion.div
+              className="rounded-2xl border border-zinc-800/50 bg-[#12141a] p-6"
+              {...fadeUp(0)}
+            >
+              <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                </svg>
+              </div>
+              <h3 className="text-sm font-semibold text-zinc-200 mb-1">Adresse</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Erfurter Stra&szlig;e 7<br />
+                85386 Eching
+              </p>
+            </motion.div>
+
+            {/* Phone */}
+            <motion.div
+              className="rounded-2xl border border-zinc-800/50 bg-[#12141a] p-6"
+              {...fadeUp(0.08)}
+            >
+              <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                </svg>
+              </div>
+              <h3 className="text-sm font-semibold text-zinc-200 mb-1">Telefon</h3>
+              <p className="text-sm text-zinc-400">
+                <a href="tel:+498931926984" className="hover:text-amber-500 transition-colors">
+                  (089) 319 26 84
+                </a>
+              </p>
+            </motion.div>
+
+            {/* Fax */}
+            <motion.div
+              className="rounded-2xl border border-zinc-800/50 bg-[#12141a] p-6"
+              {...fadeUp(0.16)}
+            >
+              <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18.75 9H5.25" />
+                </svg>
+              </div>
+              <h3 className="text-sm font-semibold text-zinc-200 mb-1">Fax</h3>
+              <p className="text-sm text-zinc-400">(089) 319 66 51</p>
+            </motion.div>
+
+            {/* Email */}
+            <motion.div
+              className="rounded-2xl border border-zinc-800/50 bg-[#12141a] p-6"
+              {...fadeUp(0.24)}
+            >
+              <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
+              </div>
+              <h3 className="text-sm font-semibold text-zinc-200 mb-1">E-Mail</h3>
+              <p className="text-sm text-zinc-400">
+                <a href="mailto:mail@wagner-eching.de" className="hover:text-amber-500 transition-colors">
+                  mail@wagner-eching.de
+                </a>
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Opening Hours */}
+          <motion.div
+            className="rounded-2xl border border-zinc-800/50 bg-[#12141a] p-8 lg:p-10 max-w-md"
+            {...fadeUp(0.1)}
+          >
+            <h3 className="text-lg font-semibold text-zinc-200 mb-6">
+              &Ouml;ffnungszeiten
+            </h3>
+            <table className="w-full">
+              <tbody>
+                {hours.map((row) => (
+                  <tr key={row.day} className="border-b border-zinc-800/30 last:border-0">
+                    <td className="py-3 text-sm text-zinc-400">{row.day}</td>
+                    <td className="py-3 text-sm text-zinc-200 text-right font-medium">
+                      {row.time}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </motion.div>
         </div>
       </section>
 
-      {/* Content */}
-      <section className="py-20 lg:py-28 px-4 bg-[#0f0f0f]">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Left: Contact info + hours */}
-            <div>
-              <motion.div {...fadeIn}>
-                <h2 className="text-2xl font-bold text-white mb-8">Kontaktdaten</h2>
-                <div className="space-y-6">
-                  {CONTACT_INFO.map((item) => {
-                    const content = (
-                      <div className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center shrink-0 mt-0.5">
-                          <svg
-                            className="w-5 h-5 text-red-500"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={1.5}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <path d={item.icon} />
-                          </svg>
-                        </div>
-                        <div>
-                          <p className="text-xs uppercase tracking-wider text-zinc-500 font-medium mb-1">
-                            {item.label}
-                          </p>
-                          <p className="text-white whitespace-pre-line font-medium">
-                            {item.value}
-                          </p>
-                        </div>
-                      </div>
-                    );
+      {/* Contact Form */}
+      <section className="py-20 lg:py-28 px-6 lg:px-8">
+        <div className="max-w-[1100px] mx-auto">
+          <motion.div className="flex items-center gap-3 mb-6" {...fadeUp()}>
+            <div className="h-px w-8 bg-amber-500/40" />
+            <span className="text-[11px] text-amber-500/70 uppercase tracking-[0.3em] font-medium">
+              Nachricht
+            </span>
+          </motion.div>
+          <motion.h2
+            className="text-3xl lg:text-4xl font-bold text-zinc-100 tracking-tight mb-12"
+            {...fadeUp(0.1)}
+          >
+            Schreiben Sie uns
+          </motion.h2>
 
-                    return item.href ? (
-                      <a
-                        key={item.label}
-                        href={item.href}
-                        className="block hover:bg-[#0f0f0f] rounded-xl p-3 -m-3 transition-colors"
-                        target={item.href.startsWith("http") ? "_blank" : undefined}
-                        rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      >
-                        {content}
-                      </a>
-                    ) : (
-                      <div key={item.label} className="p-3 -m-3">
-                        {content}
-                      </div>
-                    );
-                  })}
-                </div>
-              </motion.div>
-
-              {/* Opening hours */}
-              <motion.div {...fadeIn} className="mt-12">
-                <h2 className="text-2xl font-bold text-white mb-6">Öffnungszeiten</h2>
-                <div className="rounded-2xl border border-white/[0.04] overflow-hidden">
-                  {HOURS.map((item, i) => {
-                    const isClosed = item.time === "Geschlossen";
-                    return (
-                      <div
-                        key={item.day}
-                        className={`flex justify-between items-center px-5 py-3.5 ${
-                          i < HOURS.length - 1 ? "border-b border-white/[0.04]" : ""
-                        } ${isClosed ? "bg-[#0a0a0a] text-zinc-500" : ""}`}
-                      >
-                        <span className="text-sm font-medium">{item.day}</span>
-                        <span className={`text-sm ${isClosed ? "text-zinc-500" : "text-white font-medium"}`}>
-                          {item.time}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </motion.div>
+          <motion.form
+            className="max-w-2xl space-y-6"
+            onSubmit={(e) => e.preventDefault()}
+            {...fadeUp(0.2)}
+          >
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm text-zinc-400 mb-2">Name</label>
+                <input
+                  type="text"
+                  placeholder="Ihr Name"
+                  className="w-full px-4 py-3 rounded-lg bg-[#12141a] border border-zinc-800/50 text-zinc-200 placeholder:text-zinc-600 text-sm focus:outline-none focus:border-amber-500/40 transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-zinc-400 mb-2">E-Mail</label>
+                <input
+                  type="email"
+                  placeholder="ihre@email.de"
+                  className="w-full px-4 py-3 rounded-lg bg-[#12141a] border border-zinc-800/50 text-zinc-200 placeholder:text-zinc-600 text-sm focus:outline-none focus:border-amber-500/40 transition-colors"
+                />
+              </div>
             </div>
-
-            {/* Right: Contact form */}
-            <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.15 }}>
-              <h2 className="text-2xl font-bold text-white mb-8">Nachricht senden</h2>
-              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      placeholder="Ihr Name"
-                      className="w-full px-4 py-3 rounded-xl border border-white/[0.04] bg-[#0f0f0f] text-white placeholder:text-zinc-500/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-white mb-2">
-                      Telefon
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      placeholder="Ihre Telefonnummer"
-                      className="w-full px-4 py-3 rounded-xl border border-white/[0.04] bg-[#0f0f0f] text-white placeholder:text-zinc-500/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
-                    E-Mail
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    placeholder="ihre@email.de"
-                    className="w-full px-4 py-3 rounded-xl border border-white/[0.04] bg-[#0f0f0f] text-white placeholder:text-zinc-500/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-white mb-2">
-                    Betreff
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    placeholder="Worum geht es?"
-                    className="w-full px-4 py-3 rounded-xl border border-white/[0.04] bg-[#0f0f0f] text-white placeholder:text-zinc-500/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-white mb-2">
-                    Nachricht
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={5}
-                    placeholder="Beschreiben Sie Ihr Anliegen..."
-                    className="w-full px-4 py-3 rounded-xl border border-white/[0.04] bg-[#0f0f0f] text-white placeholder:text-zinc-500/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full px-8 py-4 bg-primary text-red-500-foreground font-semibold rounded-full hover:bg-primary-700 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-lg shadow-primary/20"
-                >
-                  Nachricht senden
-                </button>
-                <p className="text-xs text-zinc-500 text-center">
-                  Mit dem Absenden stimmen Sie unserer{" "}
-                  <a href="/datenschutz" className="text-red-500 hover:underline">
-                    Datenschutzerklärung
-                  </a>{" "}
-                  zu.
-                </p>
-              </form>
-            </motion.div>
-          </div>
+            <div>
+              <label className="block text-sm text-zinc-400 mb-2">Telefon <span className="text-zinc-600">(optional)</span></label>
+              <input
+                type="tel"
+                placeholder="Ihre Telefonnummer"
+                className="w-full px-4 py-3 rounded-lg bg-[#12141a] border border-zinc-800/50 text-zinc-200 placeholder:text-zinc-600 text-sm focus:outline-none focus:border-amber-500/40 transition-colors"
+              />
+            </div>
+            <div>
+              <label className="block text-sm text-zinc-400 mb-2">Nachricht</label>
+              <textarea
+                rows={5}
+                placeholder="Beschreiben Sie Ihr Anliegen..."
+                className="w-full px-4 py-3 rounded-lg bg-[#12141a] border border-zinc-800/50 text-zinc-200 placeholder:text-zinc-600 text-sm focus:outline-none focus:border-amber-500/40 transition-colors resize-none"
+              />
+            </div>
+            <button
+              type="submit"
+              className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-zinc-900 font-semibold px-7 py-3 rounded-lg transition-colors duration-200"
+            >
+              Nachricht senden
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </button>
+          </motion.form>
         </div>
       </section>
     </main>

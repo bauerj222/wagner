@@ -1,147 +1,116 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { NumberTicker } from "@/components/ui/number-ticker";
 
-const fadeIn = {
+const ease = [0.22, 1, 0.36, 1] as const;
+const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7, ease: [0.32, 0.72, 0, 1] as const },
-};
+  viewport: { once: true, margin: "-60px" },
+  transition: { duration: 0.7, delay, ease },
+});
 
-const TIMELINE = [
+const timeline = [
   {
     year: "1972",
-    title: "Gründung",
-    text: "Ernst Wagner gründet den Elektrobetrieb in Eching bei München und legt den Grundstein für über 50 Jahre Handwerkstradition.",
+    title: "Gr\u00fcndung",
+    text: "Ernst Wagner gr\u00fcndet den Elektrobetrieb in der Wielandstra\u00dfe\u202f2, Eching.",
   },
   {
     year: "1974",
-    title: "Umzug",
-    text: "Der Betrieb bezieht die Räumlichkeiten in der Erfurter Straße 7 in Eching — bis heute der Firmensitz.",
+    title: "Neuer Standort",
+    text: "Umzug in die Erfurter Stra\u00dfe\u202f7 mit ca.\u202f400\u202fm\u00b2 Lagerfl\u00e4che.",
   },
   {
     year: "1993",
-    title: "Meisterbrief Jürgen Wagner",
-    text: "Jürgen Wagner legt erfolgreich die Meisterprüfung im Elektrohandwerk ab.",
+    title: "Meisterpr\u00fcfung",
+    text: "J\u00fcrgen Wagner legt die Meisterpr\u00fcfung im Elektrohandwerk ab.",
   },
   {
     year: "1996",
-    title: "Übernahme",
-    text: "Jürgen Wagner übernimmt die Geschäftsführung und führt den Betrieb als Meisterbetrieb in zweiter Generation weiter.",
+    title: "\u00dcbernahme",
+    text: "J\u00fcrgen Wagner \u00fcbernimmt den Betrieb von seinem Vater Ernst Wagner.",
   },
   {
     year: "2009",
-    title: "Erweiterung",
-    text: "Der Betrieb wächst weiter und erweitert sein Leistungsspektrum im Bereich EDV-Netzwerke und gewerbliche Installationen.",
+    title: "N\u00e4chste Generation",
+    text: "Sebastian Wagner beginnt seine Ausbildung als Elektro-Installateur im Familienbetrieb.",
   },
   {
     year: "2015",
-    title: "Meisterbrief Sebastian Wagner",
-    text: "Sebastian Wagner legt die Meisterprüfung ab und bringt frisches Fachwissen in den Familienbetrieb ein.",
+    title: "Meisterpr\u00fcfung",
+    text: "Sebastian Wagner besteht die Meisterpr\u00fcfung und wird zweiter Meister im Betrieb.",
   },
   {
     year: "2021",
     title: "GmbH & Co. KG",
-    text: "Umwandlung in die Elektro Wagner GmbH & Co. KG. Sebastian Wagner tritt offiziell in die Geschäftsführung ein — der Betrieb wird in dritter Generation fortgeführt.",
+    text: "Umwandlung in die Elektro Wagner GmbH\u202f&\u202fCo.\u202fKG \u2013 Sebastian Wagner wird Gesch\u00e4ftsf\u00fchrer.",
   },
 ];
 
-const STATS = [
-  { value: "25", label: "Mitarbeiter" },
-  { value: "2", label: "Meister" },
-  { value: "18", label: "Gesellen" },
-  { value: "5", label: "Auszubildende" },
-  { value: "50+", label: "Jahre Erfahrung" },
-  { value: "1972", label: "Gegründet" },
+const stats = [
+  { value: 50, suffix: "+", label: "Jahre Erfahrung" },
+  { value: 25, suffix: "", label: "Mitarbeiter" },
+  { value: 2, suffix: "", label: "Meister" },
+  { value: 5, suffix: "", label: "Auszubildende" },
 ];
 
-const TEAM = [
+const team = [
   {
-    name: "Jürgen Wagner",
-    role: "Geschäftsführer & Elektrotechnikermeister",
-    since: "Meister seit 1993 · Geschäftsführer seit 1996",
-    description:
-      "Als Elektrotechnikermeister und Geschäftsführer in zweiter Generation leitet Jürgen Wagner den Betrieb seit über 25 Jahren. Persönliche Beratung und höchste Qualitätsansprüche stehen für ihn an erster Stelle.",
+    name: "J\u00fcrgen Wagner",
+    role: "Gesch\u00e4ftsf\u00fchrer & Elektromeister",
+    desc: "Meister seit 1993, \u00fcbernahm den Betrieb 1996 von Gr\u00fcnder Ernst Wagner. \u00dcber 30\u202fJahre Erfahrung in allen Bereichen der Elektrotechnik.",
   },
   {
     name: "Sebastian Wagner",
-    role: "Geschäftsführer & Elektrotechnikermeister",
-    since: "Meister seit 2015 · Geschäftsführer seit 2021",
-    description:
-      "Sebastian Wagner vertritt die dritte Generation im Familienbetrieb. Mit seinem Meisterbrief und modernem Fachwissen sorgt er dafür, dass der Betrieb auch in Zukunft auf dem neuesten Stand der Technik bleibt.",
+    role: "Gesch\u00e4ftsf\u00fchrer & Elektromeister",
+    desc: "Meister seit 2015, Gesch\u00e4ftsf\u00fchrer seit 2021. F\u00fchrt den Familienbetrieb in dritter Generation in die Zukunft.",
   },
 ];
 
-export default function UeberUns() {
+export default function UeberUnsPage() {
   return (
-    <main>
-      {/* Hero */}
-      <section className="pt-32 pb-16 lg:pt-40 lg:pb-20 px-4 bg-gradient-to-br from-white via-white to-primary-50">
-        <div className="max-w-7xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] as const }}
-          >
-            <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-red-500/10 text-red-500 mb-5">
-              Über uns
+    <main className="min-h-screen bg-[#0f1115]">
+      {/* Header */}
+      <section className="pt-32 pb-16 lg:pt-40 lg:pb-20 px-6 lg:px-8 border-b border-zinc-800/30">
+        <div className="max-w-[1100px] mx-auto">
+          <motion.div className="flex items-center gap-3 mb-6" {...fadeUp()}>
+            <div className="h-px w-8 bg-amber-500/40" />
+            <span className="text-[11px] text-amber-500/70 uppercase tracking-[0.3em] font-medium">
+              &Uuml;ber uns
             </span>
-            <h1 className="text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6">
-              Familienbetrieb seit <span className="text-red-500">1972</span>
-            </h1>
-            <p className="text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed">
-              Drei Generationen Handwerkskunst. Vom Ein-Mann-Betrieb zum
-              Innungs-Meisterbetrieb mit 25 Mitarbeitern — und immer noch persönlich für Sie da.
-            </p>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Quote */}
-      <section className="py-16 lg:py-20 px-4 bg-primary">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div {...fadeIn}>
-            <svg
-              className="w-10 h-10 text-white/30 mx-auto mb-6"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151C7.546 6.068 5.983 8.789 5.983 11H10v10H0z" />
-            </svg>
-            <blockquote className="text-2xl lg:text-3xl font-bold text-white leading-snug mb-4">
-              Unsere Kunden sind Meistersache.
-            </blockquote>
-            <p className="text-white/70 text-base lg:text-lg max-w-xl mx-auto">
-              Wenn es um Beratung, Anfragen und Angebote geht, kümmern wir uns persönlich.
-            </p>
-          </motion.div>
+          <motion.h1
+            className="text-4xl lg:text-5xl font-bold text-zinc-100 tracking-tight"
+            {...fadeUp(0.1)}
+          >
+            Seit 1972 in Eching
+          </motion.h1>
+          <motion.p className="text-zinc-400 mt-4 max-w-lg" {...fadeUp(0.2)}>
+            Drei Generationen Elektrohandwerk &ndash; vom Ein-Mann-Betrieb zum
+            25-k&ouml;pfigen Team. Familienbetrieb mit Meisterqualit&auml;t.
+          </motion.p>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="py-20 lg:py-28 px-4 bg-[#0f0f0f]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div {...fadeIn} className="mb-14 text-center">
-            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight">
-              Unser Team in Zahlen
-            </h2>
-          </motion.div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {STATS.map((stat, i) => (
+      <section className="py-20 lg:py-28 px-6 lg:px-8 border-b border-zinc-800/30">
+        <div className="max-w-[1100px] mx-auto">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {stats.map((stat, i) => (
               <motion.div
                 key={stat.label}
-                {...fadeIn}
-                transition={{ ...fadeIn.transition, delay: i * 0.08 }}
-                className="p-6 rounded-2xl bg-[#0f0f0f] border border-white/[0.04] text-center"
+                className="rounded-2xl border border-zinc-800/50 bg-[#12141a] p-8 text-center"
+                {...fadeUp(i * 0.08)}
               >
-                <span className="text-3xl lg:text-4xl font-bold text-red-500 block">
-                  {stat.value}
-                </span>
-                <span className="text-xs text-zinc-500 mt-1 block uppercase tracking-wider font-medium">
-                  {stat.label}
-                </span>
+                <div className="text-4xl lg:text-5xl font-bold text-zinc-100 mb-2">
+                  <NumberTicker value={stat.value} />
+                  {stat.suffix && (
+                    <span className="text-amber-500">{stat.suffix}</span>
+                  )}
+                </div>
+                <p className="text-sm text-zinc-500">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -149,34 +118,39 @@ export default function UeberUns() {
       </section>
 
       {/* Team */}
-      <section className="py-20 lg:py-28 px-4 bg-[#0f0f0f] border-y border-white/[0.04]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div {...fadeIn} className="mb-14 text-center">
-            <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-red-500/10 text-red-500 mb-5">
-              Geschäftsführung
+      <section className="py-20 lg:py-28 px-6 lg:px-8 border-b border-zinc-800/30">
+        <div className="max-w-[1100px] mx-auto">
+          <motion.div className="flex items-center gap-3 mb-6" {...fadeUp()}>
+            <div className="h-px w-8 bg-amber-500/40" />
+            <span className="text-[11px] text-amber-500/70 uppercase tracking-[0.3em] font-medium">
+              Gesch&auml;ftsf&uuml;hrung
             </span>
-            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight">
-              Ihre Ansprechpartner
-            </h2>
           </motion.div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {TEAM.map((member, i) => (
+          <motion.h2
+            className="text-3xl lg:text-4xl font-bold text-zinc-100 tracking-tight mb-12"
+            {...fadeUp(0.1)}
+          >
+            Zwei Meister, ein Betrieb
+          </motion.h2>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {team.map((member, i) => (
               <motion.div
                 key={member.name}
-                {...fadeIn}
-                transition={{ ...fadeIn.transition, delay: i * 0.1 }}
-                className="p-8 lg:p-10 rounded-2xl bg-[#0f0f0f] border border-white/[0.04]"
+                className="rounded-2xl border border-zinc-800/50 bg-[#12141a] p-8 lg:p-10"
+                {...fadeUp(i * 0.1)}
               >
-                <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mb-5">
-                  <span className="text-xl font-bold text-red-500">
-                    {member.name.split(" ").map((n) => n[0]).join("")}
+                <div className="w-14 h-14 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-6">
+                  <span className="text-amber-500 font-bold text-lg">
+                    {member.name.charAt(0)}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
-                <p className="text-red-500 font-medium text-sm mb-1">{member.role}</p>
-                <p className="text-xs text-zinc-500 mb-4">{member.since}</p>
-                <p className="text-zinc-500 text-sm leading-relaxed">
-                  {member.description}
+                <h3 className="text-xl font-semibold text-zinc-200 mb-1">
+                  {member.name}
+                </h3>
+                <p className="text-sm text-amber-500/70 mb-4">{member.role}</p>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  {member.desc}
                 </p>
               </motion.div>
             ))}
@@ -185,74 +159,49 @@ export default function UeberUns() {
       </section>
 
       {/* Timeline */}
-      <section className="py-20 lg:py-28 px-4 bg-[#0f0f0f]">
-        <div className="max-w-4xl mx-auto">
-          <motion.div {...fadeIn} className="mb-14 text-center">
-            <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-red-500/10 text-red-500 mb-5">
+      <section className="py-20 lg:py-28 px-6 lg:px-8">
+        <div className="max-w-[1100px] mx-auto">
+          <motion.div className="flex items-center gap-3 mb-6" {...fadeUp()}>
+            <div className="h-px w-8 bg-amber-500/40" />
+            <span className="text-[11px] text-amber-500/70 uppercase tracking-[0.3em] font-medium">
               Geschichte
             </span>
-            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight">
-              Über 50 Jahre Handwerk
-            </h2>
           </motion.div>
+          <motion.h2
+            className="text-3xl lg:text-4xl font-bold text-zinc-100 tracking-tight mb-14"
+            {...fadeUp(0.1)}
+          >
+            &Uuml;ber 50&nbsp;Jahre Elektrotechnik
+          </motion.h2>
 
           <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-6 lg:left-8 top-0 bottom-0 w-px bg-border" />
+            {/* Vertical line */}
+            <div className="absolute left-[7px] top-2 bottom-2 w-px bg-zinc-800/50" />
 
-            <div className="space-y-8">
-              {TIMELINE.map((item, i) => (
+            <div className="space-y-10">
+              {timeline.map((event, i) => (
                 <motion.div
-                  key={item.year}
-                  {...fadeIn}
-                  transition={{ ...fadeIn.transition, delay: i * 0.08 }}
-                  className="relative flex gap-6 lg:gap-8"
+                  key={event.year}
+                  className="relative pl-10"
+                  {...fadeUp(i * 0.06)}
                 >
                   {/* Dot */}
-                  <div className="relative z-10 w-12 lg:w-16 shrink-0 flex items-start justify-center pt-1">
-                    <div className="w-3 h-3 rounded-full bg-primary ring-4 ring-white" />
+                  <div className="absolute left-0 top-1.5 w-[15px] h-[15px] rounded-full border-2 border-amber-500/40 bg-[#0f1115]">
+                    <div className="absolute inset-[3px] rounded-full bg-amber-500/60" />
                   </div>
-
-                  {/* Content */}
-                  <div className="pb-8">
-                    <span className="text-sm font-bold text-red-500">{item.year}</span>
-                    <h3 className="text-lg font-semibold text-white mt-1 mb-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-zinc-500 text-sm leading-relaxed">{item.text}</p>
-                  </div>
+                  <span className="text-xs font-mono text-amber-500/50 block mb-1">
+                    {event.year}
+                  </span>
+                  <h3 className="text-lg font-semibold text-zinc-200 mb-1">
+                    {event.title}
+                  </h3>
+                  <p className="text-sm text-zinc-400 leading-relaxed">
+                    {event.text}
+                  </p>
                 </motion.div>
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 lg:py-28 px-4 bg-[#0f0f0f] border-t border-white/[0.04]">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div {...fadeIn}>
-            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-5">
-              Lernen Sie uns kennen
-            </h2>
-            <p className="text-lg text-zinc-500 mb-10 max-w-xl mx-auto">
-              Besuchen Sie uns in Eching oder rufen Sie einfach an — wir freuen uns auf Ihr Projekt.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/kontakt"
-                className="px-8 py-4 bg-primary text-red-500-foreground font-semibold rounded-full hover:bg-primary-700 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-lg shadow-primary/20"
-              >
-                Kontakt aufnehmen
-              </Link>
-              <a
-                href="tel:08931926484"
-                className="px-8 py-4 border border-foreground/15 text-white font-medium rounded-full hover:bg-foreground/5 transition-all duration-300"
-              >
-                (089) 319 26 84
-              </a>
-            </div>
-          </motion.div>
         </div>
       </section>
     </main>
