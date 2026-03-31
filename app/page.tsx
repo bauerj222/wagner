@@ -4,160 +4,167 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Counter, Marquee } from "@/components/HeroOrb";
 
-const reveal = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
-};
-
-const stagger = (i: number) => ({
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, delay: 0.1 + i * 0.08, ease: [0.25, 0.1, 0.25, 1] as const },
-});
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const SERVICES = [
-  { title: "Elektroinstallationen", desc: "Wohnbau, Sanierung und Neubau — fachgerecht und zuverlässig.", tag: "Kernkompetenz" },
-  { title: "EDV-Netzwerke", desc: "Kabelverlegung inkl. Anschlusstechnik und Messprotokoll.", tag: "IT" },
-  { title: "Kundendienst", desc: "Schneller Service, Wartung und technische Unterstützung.", tag: "Service" },
-  { title: "Gewerbe & Industrie", desc: "Elektroarbeiten für Betriebsgebäude und Neubauprojekte.", tag: "Gewerbe" },
-  { title: "Kabel & Sat", desc: "Installation von Kabel- und Satellitensystemen.", tag: "Multimedia" },
-  { title: "Kernbohrungen", desc: "Präzise Bohrungen in Ziegel und Beton bis 250mm.", tag: "Spezial" },
+  { title: "Elektroinstallation", desc: "Wohnbau, Sanierung, Neubau — von der Planung bis zur Abnahme." },
+  { title: "EDV-Netzwerke", desc: "Strukturierte Verkabelung, Anschlusstechnik und Messprotokoll." },
+  { title: "Kundendienst", desc: "Schnelle Hilfe bei Störungen, Wartung und Reparaturen." },
+  { title: "Gewerbe & Industrie", desc: "Betriebsgebäude, Neubauprojekte und Bestandssanierung." },
+  { title: "Kabel & Sat", desc: "TV- und Satellitenanlagen für Privat und Mehrfamilienhäuser." },
+  { title: "Kernbohrungen", desc: "Durchmesser bis 250mm in Ziegel, Beton und Stahlbeton." },
 ];
 
 function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden hero-gradient">
-      {/* Grid */}
-      <div className="absolute inset-0 grid-bg" />
+    <section className="relative min-h-screen flex flex-col justify-end overflow-hidden pb-20 lg:pb-28">
+      {/* Ambient glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[20%] left-[15%] w-[500px] h-[500px] rounded-full bg-[#dc2626]/[0.03] blur-[150px]" />
+        <div className="absolute bottom-[10%] right-[10%] w-[400px] h-[300px] rounded-full bg-[#dc2626]/[0.02] blur-[120px]" />
+      </div>
 
-      {/* Decorative lines */}
-      <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-white/[0.03] to-transparent" />
-      <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-white/[0.03] to-transparent" />
-      <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/[0.03] to-transparent" />
+      <div className="relative z-10 max-w-[1200px] mx-auto px-6 lg:px-8 w-full">
+        {/* Overline */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease }}
+          className="mb-12 lg:mb-16"
+        >
+          <div className="flex items-center gap-3">
+            <div className="h-px w-12 bg-[#dc2626]/40" />
+            <span className="text-[11px] text-[#dc2626]/70 uppercase tracking-[0.3em] font-medium">Meisterbetrieb</span>
+          </div>
+        </motion.div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full pt-32 pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-end">
-          {/* Main content — 8 cols */}
-          <div className="lg:col-span-8">
-            <motion.p
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-[11px] text-red-500/80 font-medium uppercase tracking-[0.25em] mb-8"
-            >
-              Meisterbetrieb seit 1972
-            </motion.p>
+        {/* Headline — editorial layout */}
+        <div className="mb-12 lg:mb-16">
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.1, ease }}
+            className="text-[clamp(2.8rem,8vw,7rem)] font-bold leading-[0.9] tracking-[-0.035em] text-white"
+          >
+            Elektrotechnik
+          </motion.h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2, ease }}
+            className="text-[clamp(2.8rem,8vw,7rem)] leading-[0.9] tracking-[-0.02em] text-[#333] mt-1"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            <em>aus Meisterhand</em>
+          </motion.h1>
+        </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="leading-[0.95] mb-8"
-            >
-              <span className="block text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold tracking-[-0.03em] text-white">
-                Elektrotechnik
-              </span>
-              <span className="block text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold tracking-[-0.03em] text-white/20">
-                aus{" "}
-                <em className="not-italic text-white/90" style={{ fontFamily: "var(--font-serif)" }}>
-                  Meisterhand
-                </em>
-              </span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-[15px] sm:text-base text-white/35 max-w-md leading-relaxed mb-10"
-            >
-              Elektro Wagner — Ihr zuverlässiger Partner für Elektroinstallationen
-              in Eching bei München. 25 Fachkräfte, persönliche Betreuung.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-wrap gap-3"
-            >
-              <Link
-                href="/kontakt"
-                className="px-7 py-3.5 text-[13px] font-semibold bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-              >
+        {/* Bottom row — description + stats */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-end">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.35, ease }}
+            className="lg:col-span-5"
+          >
+            <p className="text-[14px] text-[#666] leading-relaxed mb-8 max-w-sm">
+              Ihr zuverlässiger Partner für Elektroinstallationen in Eching bei München.
+              Familienbetrieb in dritter Generation, gegründet 1972.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/kontakt" className="px-6 py-3 text-[13px] font-medium bg-white text-[#060606] rounded-full hover:bg-white/90 transition-colors">
                 Projekt besprechen
               </Link>
-              <a
-                href="tel:08931926484"
-                className="px-7 py-3.5 text-[13px] font-medium text-white/50 rounded-full border border-white/[0.08] hover:bg-white/[0.04] hover:text-white transition-all"
-              >
+              <a href="tel:08931926484" className="px-6 py-3 text-[13px] text-[#666] rounded-full border border-white/[0.06] hover:border-white/[0.12] hover:text-white transition-all">
                 (089) 319 26 84
               </a>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
-          {/* Stats column — 4 cols */}
-          <div className="lg:col-span-4 flex flex-col gap-0 border-l border-white/[0.04] pl-8">
-            {[
-              { val: 1972, label: "Gegründet" },
-              { val: 50, label: "Jahre Erfahrung", suf: "+" },
-              { val: 25, label: "Fachkräfte" },
-            ].map((s, i) => (
-              <motion.div key={s.label} {...stagger(i)} className="py-6 border-b border-white/[0.04] last:border-b-0">
-                <span className="block text-3xl font-bold text-white tracking-tight">
-                  <Counter value={s.val} suffix={s.suf || ""} />
-                </span>
-                <span className="block text-[11px] text-white/25 mt-1 uppercase tracking-[0.15em]">{s.label}</span>
-              </motion.div>
-            ))}
+          <div className="lg:col-span-7 lg:pl-12 lg:border-l lg:border-white/[0.04]">
+            <div className="grid grid-cols-3 gap-6">
+              {[
+                { val: 1972, label: "Gegründet" },
+                { val: 25, label: "Mitarbeiter" },
+                { val: 50, label: "Jahre Erfahrung", suf: "+" },
+              ].map((s, i) => (
+                <motion.div
+                  key={s.label}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 + i * 0.1, ease }}
+                >
+                  <span className="block text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-white tracking-tight">
+                    <Counter value={s.val} suffix={s.suf || ""} />
+                  </span>
+                  <span className="block text-[11px] text-[#444] mt-1 uppercase tracking-wider">{s.label}</span>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#050505] to-transparent" />
     </section>
   );
 }
 
 function Services() {
   return (
-    <section className="py-24 lg:py-32 px-6">
-      <div className="max-w-6xl mx-auto">
-        <motion.div {...reveal} className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-16">
-          <div>
-            <p className="text-[11px] text-red-500/80 font-medium uppercase tracking-[0.25em] mb-3">Leistungen</p>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-              Was wir tun<span className="text-red-500">.</span>
+    <section className="py-24 lg:py-32 px-6 lg:px-8">
+      <div className="max-w-[1200px] mx-auto">
+        {/* Section header */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16 lg:mb-20"
+        >
+          <div className="lg:col-span-4">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-px w-8 bg-[#dc2626]/40" />
+              <span className="text-[11px] text-[#dc2626]/70 uppercase tracking-[0.3em] font-medium">Leistungen</span>
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-bold text-white tracking-tight">
+              Alles aus<br />einer Hand.
             </h2>
           </div>
-          <Link href="/leistungen" className="text-[13px] text-white/30 hover:text-white transition-colors inline-flex items-center gap-1.5 shrink-0">
-            Alle Leistungen
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </Link>
+          <div className="lg:col-span-5 lg:col-start-6 flex items-end">
+            <p className="text-[14px] text-[#555] leading-relaxed max-w-md">
+              Von der kleinen Reparatur bis zur kompletten Elektroinstallation für Neubau und Gewerbe.
+              Persönliche Betreuung durch unsere Meister.
+            </p>
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {/* Service grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[1px] bg-white/[0.03] rounded-2xl overflow-hidden">
           {SERVICES.map((s, i) => (
             <motion.div
               key={s.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.06, ease: [0.25, 0.1, 0.25, 1] as const }}
+              transition={{ duration: 0.5, delay: i * 0.05, ease }}
+              className="bg-[#060606] p-8 group hover:bg-[#0a0a0a] transition-colors duration-300"
             >
-              <div className="animated-border group h-full">
-                <div className="relative bg-[#0a0a0a] rounded-2xl p-7 h-full border border-white/[0.03]">
-                  <span className="text-[10px] text-white/15 uppercase tracking-[0.2em] font-medium">{s.tag}</span>
-                  <h3 className="text-[15px] font-semibold text-white mt-4 mb-2 group-hover:text-red-400 transition-colors duration-300">{s.title}</h3>
-                  <p className="text-[13px] text-white/30 leading-relaxed">{s.desc}</p>
-                </div>
-              </div>
+              <span className="block text-[11px] text-[#333] mb-6 font-medium">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="text-[15px] font-semibold text-white mb-2 group-hover:text-[#dc2626] transition-colors duration-300">{s.title}</h3>
+              <p className="text-[13px] text-[#555] leading-relaxed">{s.desc}</p>
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-8"
+        >
+          <Link href="/leistungen" className="text-[13px] text-[#555] hover:text-white transition-colors inline-flex items-center gap-2">
+            Alle Leistungen im Detail
+            <span className="text-[10px]">&rarr;</span>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
@@ -165,45 +172,64 @@ function Services() {
 
 function About() {
   return (
-    <section className="py-24 lg:py-32 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-3">
-          <motion.div {...reveal} className="lg:col-span-3 animated-border">
-            <div className="relative bg-[#0a0a0a] rounded-2xl p-8 lg:p-12 border border-white/[0.03] h-full">
-              <p className="text-[11px] text-red-500/80 font-medium uppercase tracking-[0.25em] mb-6">Über uns</p>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-6">
-                Familie<span className="text-red-500">.</span><br />
-                <span className="text-white/20">Seit drei Generationen.</span>
-              </h2>
-              <p className="text-[14px] text-white/30 leading-relaxed mb-4 max-w-md">
-                1972 von Ernst Wagner gegründet, wird das Unternehmen heute von Jürgen
-                und Sebastian Wagner als Meisterbetrieb geführt. 25 Mitarbeiter, davon
-                2 Meister, 18 Gesellen und 5 Auszubildende.
-              </p>
-              <blockquote className="text-[13px] text-white/20 leading-relaxed mb-8 max-w-md border-l-2 border-red-500/30 pl-4 italic" style={{ fontFamily: "var(--font-serif)" }}>
-                &bdquo;Unsere Kunden sind Meistersache. Wenn es um Beratung, Anfragen und
-                Angebote geht, kümmern wir uns persönlich.&ldquo;
-              </blockquote>
-              <Link href="/ueber-uns" className="text-[13px] text-white/30 hover:text-white transition-colors inline-flex items-center gap-1.5">
-                Geschichte lesen
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              </Link>
+    <section className="py-24 lg:py-32 px-6 lg:px-8 border-t border-white/[0.03]">
+      <div className="max-w-[1200px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-6">
+          {/* Left — big statement */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease }}
+            className="lg:col-span-7"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-px w-8 bg-[#dc2626]/40" />
+              <span className="text-[11px] text-[#dc2626]/70 uppercase tracking-[0.3em] font-medium">Über uns</span>
             </div>
+            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight leading-[1.05] mb-8">
+              Drei Generationen.<br />
+              <span className="text-[#333]" style={{ fontFamily: "var(--font-display)" }}>
+                <em>Ein Versprechen.</em>
+              </span>
+            </h2>
+            <p className="text-[14px] text-[#555] leading-relaxed max-w-lg mb-6">
+              1972 von Ernst Wagner gegründet, wird das Unternehmen heute von Jürgen
+              und Sebastian Wagner geführt. 2 Meister, 18 Gesellen, 5 Auszubildende —
+              persönliche Betreuung in jeder Phase Ihres Projekts.
+            </p>
+            <blockquote className="text-[14px] text-[#444] italic leading-relaxed max-w-lg border-l border-white/[0.06] pl-5 mb-8" style={{ fontFamily: "var(--font-display)" }}>
+              &bdquo;Unsere Kunden sind Meistersache.&ldquo;
+            </blockquote>
+            <Link href="/ueber-uns" className="text-[13px] text-[#555] hover:text-white transition-colors inline-flex items-center gap-2">
+              Unsere Geschichte
+              <span className="text-[10px]">&rarr;</span>
+            </Link>
           </motion.div>
 
-          <div className="lg:col-span-2 flex flex-col gap-3">
-            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="flex-1 animated-border">
-              <div className="relative bg-[#0a0a0a] rounded-2xl p-8 border border-white/[0.03] h-full flex flex-col justify-center text-center">
-                <span className="text-5xl font-bold text-white block tracking-tight"><Counter value={50} suffix="+" /></span>
-                <span className="text-[11px] text-white/20 mt-2 block uppercase tracking-[0.15em]">Jahre</span>
-              </div>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.18 }} className="flex-1 animated-border">
-              <div className="relative bg-[#0a0a0a] rounded-2xl p-8 border border-white/[0.03] h-full flex flex-col justify-center text-center">
-                <span className="text-5xl font-bold text-white block tracking-tight"><Counter value={25} /></span>
-                <span className="text-[11px] text-white/20 mt-2 block uppercase tracking-[0.15em]">Mitarbeiter</span>
-              </div>
-            </motion.div>
+          {/* Right — timeline */}
+          <div className="lg:col-span-4 lg:col-start-9">
+            <div className="border-l border-white/[0.04] pl-8 space-y-8">
+              {[
+                { year: "1972", text: "Gründung durch Ernst Wagner" },
+                { year: "1996", text: "Jürgen Wagner übernimmt" },
+                { year: "2015", text: "Sebastian Wagner wird Meister" },
+                { year: "2021", text: "Umwandlung in GmbH & Co. KG" },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.year}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1, ease }}
+                  className="relative"
+                >
+                  <div className="absolute -left-[33px] top-1 w-[5px] h-[5px] rounded-full bg-[#dc2626]/30" />
+                  <span className="block text-[11px] text-[#dc2626]/50 uppercase tracking-wider mb-1">{item.year}</span>
+                  <span className="block text-[13px] text-[#666]">{item.text}</span>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -213,23 +239,33 @@ function About() {
 
 function CTA() {
   return (
-    <section className="py-24 lg:py-32 px-6">
-      <div className="max-w-6xl mx-auto">
-        <motion.div {...reveal} className="animated-border">
-          <div className="relative bg-[#0a0a0a] rounded-2xl p-12 sm:p-16 lg:p-24 border border-white/[0.03] text-center overflow-hidden">
-            <div className="absolute inset-0 hero-gradient opacity-50" />
-            <div className="relative">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4">
-                Bereit<span className="text-red-500">?</span>
-              </h2>
-              <p className="text-[14px] sm:text-base text-white/30 mb-10 max-w-md mx-auto">
-                Ob Neubau, Sanierung oder Reparatur — wir beraten Sie persönlich.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <Link href="/kontakt" className="px-7 py-3.5 text-[13px] font-semibold bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors">
+    <section className="py-24 lg:py-32 px-6 lg:px-8">
+      <div className="max-w-[1200px] mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease }}
+          className="card-glow"
+        >
+          <div className="relative bg-[var(--surface)] rounded-2xl px-8 py-16 sm:px-12 sm:py-20 lg:px-20 lg:py-24 overflow-hidden">
+            {/* Ambient */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-[#dc2626]/[0.025] rounded-full blur-[100px] pointer-events-none" />
+
+            <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              <div className="lg:col-span-7">
+                <h2 className="text-3xl lg:text-4xl font-bold text-white tracking-tight mb-3">
+                  Projekt besprechen?
+                </h2>
+                <p className="text-[14px] text-[#555] max-w-md">
+                  Ob Neubau, Sanierung oder Reparatur — wir beraten persönlich und unverbindlich.
+                </p>
+              </div>
+              <div className="lg:col-span-5 flex flex-wrap gap-3 lg:justify-end">
+                <Link href="/kontakt" className="px-6 py-3 text-[13px] font-medium bg-white text-[#060606] rounded-full hover:bg-white/90 transition-colors">
                   Kontakt aufnehmen
                 </Link>
-                <a href="tel:08931926484" className="px-7 py-3.5 text-[13px] font-medium text-white/40 rounded-full border border-white/[0.08] hover:bg-white/[0.04] hover:text-white transition-all">
+                <a href="tel:08931926484" className="px-6 py-3 text-[13px] text-[#666] rounded-full border border-white/[0.06] hover:border-white/[0.12] hover:text-white transition-all">
                   (089) 319 26 84
                 </a>
               </div>

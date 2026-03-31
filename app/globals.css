@@ -2,36 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
-  --background: #050505;
-  --foreground: #e8e8e8;
-  --card: rgba(255,255,255,0.025);
-  --card-foreground: #e8e8e8;
-  --muted: #141414;
-  --muted-foreground: #666;
-  --border: rgba(255,255,255,0.06);
-  --primary: #ef4444;
-  --primary-foreground: #FFFFFF;
-  --font-display: 'Cabinet Grotesk', sans-serif;
-  --font-serif: 'Instrument Serif', serif;
+  --background: #060606;
+  --surface: #0c0c0c;
+  --surface-2: #111;
+  --foreground: #e5e5e5;
+  --muted: #555;
+  --border: rgba(255,255,255,0.05);
+  --accent: #dc2626;
+  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Playfair Display', serif;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background: rgba(239, 68, 68, 0.25);
+  background: rgba(220,38,38,0.2);
   color: #fff;
 }
 
@@ -41,49 +40,39 @@ body {
   100% { transform: translateX(-50%); }
 }
 
-/* Animated gradient border */
-@property --border-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
+/* Noise grain overlay */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-@keyframes rotate-border {
-  to { --border-angle: 360deg; }
-}
+/* Animated border */
+@property --a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@keyframes spin { to { --a: 360deg; } }
 
-.animated-border {
+.card-glow {
   position: relative;
-  border-radius: 1rem;
-  overflow: hidden;
+  border-radius: 16px;
+  background: var(--surface);
 }
-.animated-border::before {
+.card-glow::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: conic-gradient(from var(--border-angle), transparent 60%, rgba(239,68,68,0.3) 80%, transparent 100%);
+  background: conic-gradient(from var(--a), transparent 70%, rgba(220,38,38,0.15), transparent 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  animation: rotate-border 4s linear infinite;
+  animation: spin 6s linear infinite;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
 }
-
-/* Hero gradient */
-.hero-gradient {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(239,68,68,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 30% 60%, rgba(200,30,30,0.06) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 50% at 70% 30%, rgba(180,20,20,0.08) 0%, transparent 50%),
-    var(--background);
-}
-
-/* Grid */
-.grid-bg {
-  background-size: 80px 80px;
-  background-image:
-    linear-gradient(to right, rgba(255,255,255,0.018) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.018) 1px, transparent 1px);
-}
+.card-glow:hover::before { opacity: 1; }

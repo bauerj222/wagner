@@ -1,3 +1,1 @@
-export default function WireDecoration() {
-  return null;
-}
+export default function WireDecoration() { return null; }
