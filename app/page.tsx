@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Counter, Marquee } from "@/components/HeroOrb";
+import { Marquee } from "@/components/HeroOrb";
+import { BackgroundPaths } from "@/components/ui/background-paths";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -17,94 +18,10 @@ const SERVICES = [
 
 function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col justify-end overflow-hidden pb-20 lg:pb-28">
-      {/* Ambient glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[20%] left-[15%] w-[500px] h-[500px] rounded-full bg-[#dc2626]/[0.03] blur-[150px]" />
-        <div className="absolute bottom-[10%] right-[10%] w-[400px] h-[300px] rounded-full bg-[#dc2626]/[0.02] blur-[120px]" />
-      </div>
-
-      <div className="relative z-10 max-w-[1200px] mx-auto px-6 lg:px-8 w-full">
-        {/* Overline */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease }}
-          className="mb-12 lg:mb-16"
-        >
-          <div className="flex items-center gap-3">
-            <div className="h-px w-12 bg-[#dc2626]/40" />
-            <span className="text-[11px] text-[#dc2626]/70 uppercase tracking-[0.3em] font-medium">Meisterbetrieb</span>
-          </div>
-        </motion.div>
-
-        {/* Headline — editorial layout */}
-        <div className="mb-12 lg:mb-16">
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.1, ease }}
-            className="text-[clamp(2.8rem,8vw,7rem)] font-bold leading-[0.9] tracking-[-0.035em] text-white"
-          >
-            Elektrotechnik
-          </motion.h1>
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2, ease }}
-            className="text-[clamp(2.8rem,8vw,7rem)] leading-[0.9] tracking-[-0.02em] text-[#333] mt-1"
-            style={{ fontFamily: "var(--font-display)" }}
-          >
-            <em>aus Meisterhand</em>
-          </motion.h1>
-        </div>
-
-        {/* Bottom row — description + stats */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-end">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35, ease }}
-            className="lg:col-span-5"
-          >
-            <p className="text-[14px] text-[#666] leading-relaxed mb-8 max-w-sm">
-              Ihr zuverlässiger Partner für Elektroinstallationen in Eching bei München.
-              Familienbetrieb in dritter Generation, gegründet 1972.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/kontakt" className="px-6 py-3 text-[13px] font-medium bg-white text-[#060606] rounded-full hover:bg-white/90 transition-colors">
-                Projekt besprechen
-              </Link>
-              <a href="tel:08931926484" className="px-6 py-3 text-[13px] text-[#666] rounded-full border border-white/[0.06] hover:border-white/[0.12] hover:text-white transition-all">
-                (089) 319 26 84
-              </a>
-            </div>
-          </motion.div>
-
-          <div className="lg:col-span-7 lg:pl-12 lg:border-l lg:border-white/[0.04]">
-            <div className="grid grid-cols-3 gap-6">
-              {[
-                { val: 1972, label: "Gegründet" },
-                { val: 25, label: "Mitarbeiter" },
-                { val: 50, label: "Jahre Erfahrung", suf: "+" },
-              ].map((s, i) => (
-                <motion.div
-                  key={s.label}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5 + i * 0.1, ease }}
-                >
-                  <span className="block text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-white tracking-tight">
-                    <Counter value={s.val} suffix={s.suf || ""} />
-                  </span>
-                  <span className="block text-[11px] text-[#444] mt-1 uppercase tracking-wider">{s.label}</span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <BackgroundPaths
+      title="Elektrotechnik aus Meisterhand"
+      subtitle="Innungs-Meisterbetrieb seit 1972 in Eching bei München. 25 Mitarbeiter, 2 Meister, über 50 Jahre Erfahrung."
+    />
   );
 }
 
