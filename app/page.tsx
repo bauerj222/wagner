@@ -2,9 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { LampContainer } from "@/components/ui/lamp";
+import { BackgroundPaths } from "@/components/ui/background-paths";
 import { NumberTicker } from "@/components/ui/number-ticker";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Marquee } from "@/components/ui/marquee";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -40,55 +39,10 @@ const MARQUEE_ITEMS = [
 
 function Hero() {
   return (
-    <LampContainer>
-      <motion.div
-        initial={{ opacity: 0.5, y: 100 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.8, ease: "easeInOut" }}
-        className="text-center"
-      >
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="text-[11px] uppercase tracking-[0.3em] text-amber-400/60 font-medium mb-6"
-        >
-          Meisterbetrieb seit 1972
-        </motion.p>
-
-        <h1 className="bg-gradient-to-br from-zinc-200 via-zinc-300 to-zinc-500 py-4 bg-clip-text text-center text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-transparent">
-          Elektrotechnik aus
-          <br />
-          Meisterhand
-        </h1>
-
-        <div className="max-w-xl mx-auto mt-6">
-          <TextGenerateEffect
-            words="Innungs-Meisterbetrieb in Eching bei München. 25 Mitarbeiter, 2 Meister, über 50 Jahre Erfahrung."
-          />
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 0.6 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-10"
-        >
-          <Link
-            href="/kontakt"
-            className="px-7 py-3.5 text-[14px] font-medium bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-full hover:opacity-90 transition-opacity shadow-lg shadow-amber-500/20"
-          >
-            Projekt besprechen
-          </Link>
-          <a
-            href="tel:08931926484"
-            className="px-7 py-3.5 text-[14px] text-zinc-400 rounded-full border border-zinc-700 hover:border-zinc-500 hover:text-zinc-200 transition-all"
-          >
-            (089) 319 26 84
-          </a>
-        </motion.div>
-      </motion.div>
-    </LampContainer>
+    <BackgroundPaths
+      title="Elektrotechnik aus Meisterhand"
+      subtitle="Innungs-Meisterbetrieb seit 1972 in Eching bei München. 25 Mitarbeiter, 2 Meister, über 50 Jahre Erfahrung."
+    />
   );
 }
 
