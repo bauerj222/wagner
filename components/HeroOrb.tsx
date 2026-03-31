@@ -1,150 +1,282 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 
-// Electric sparks particle canvas
-function SparkCanvas() {
+export default function HeroOrb() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
+    const ctx = canvas.getContext("2d")!;
     let animId: number;
     const dpr = window.devicePixelRatio || 1;
+    let W = 0, H = 0;
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth * dpr;
-      canvas.height = canvas.offsetHeight * dpr;
+      W = canvas.offsetWidth;
+      H = canvas.offsetHeight;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
     window.addEventListener("resize", resize);
 
-    interface Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      life: number;
-      maxLife: number;
-      size: number;
-      brightness: number;
-    }
+    // Particles
+    interface P { x: number; y: number; vx: number; vy: number; life: number; max: number; size: number; }
+    const particles: P[] = [];
 
-    const particles: Particle[] = [];
-    const cx = canvas.offsetWidth / 2;
-    const cy = canvas.offsetHeight / 2;
-
-    const spawn = () => {
-      const angle = Math.random() * Math.PI * 2;
-      const dist = 80 + Math.random() * 40;
-      const speed = 0.3 + Math.random() * 0.8;
-      particles.push({
-        x: cx + Math.cos(angle) * dist,
-        y: cy + Math.sin(angle) * dist,
-        vx: Math.cos(angle) * speed + (Math.random() - 0.5) * 0.5,
-        vy: Math.sin(angle) * speed + (Math.random() - 0.5) * 0.5 - 0.3,
-        life: 0,
-        maxLife: 60 + Math.random() * 80,
-        size: 1 + Math.random() * 2,
-        brightness: 0.5 + Math.random() * 0.5,
-      });
-    };
-
-    // Lightning bolt segments
-    interface Bolt {
-      segments: { x1: number; y1: number; x2: number; y2: number }[];
-      life: number;
-      maxLife: number;
-    }
+    // Lightning bolts
+    interface Bolt { pts: [number,number][]; life: number; max: number; width: number; }
     const bolts: Bolt[] = [];
 
-    const spawnBolt = () => {
+    // Orbiting dots
+    interface Dot { angle: number; speed: number; dist: number; size: number; }
+    const dots: Dot[] = Array.from({ length: 30 }, () => ({
+      angle: Math.random() * Math.PI * 2,
+      speed: (0.003 + Math.random() * 0.008) * (Math.random() > 0.5 ? 1 : -1),
+      dist: 100 + Math.random() * 120,
+      size: 1 + Math.random() * 2.5,
+    }));
+
+    // Beams
+    interface Beam { angle: number; length: number; speed: number; width: number; opacity: number; }
+    const beams: Beam[] = Array.from({ length: 8 }, (_, i) => ({
+      angle: (i / 8) * Math.PI * 2,
+      length: 200 + Math.random() * 150,
+      speed: 0.002 + Math.random() * 0.003,
+      width: 1 + Math.random() * 2,
+      opacity: 0.04 + Math.random() * 0.06,
+    }));
+
+    let t = 0;
+
+    const makeBolt = (cx: number, cy: number) => {
       const angle = Math.random() * Math.PI * 2;
-      const startDist = 60;
-      const endDist = 140 + Math.random() * 80;
-      let x = cx + Math.cos(angle) * startDist;
-      let y = cy + Math.sin(angle) * startDist;
-      const tx = cx + Math.cos(angle) * endDist;
-      const ty = cy + Math.sin(angle) * endDist;
-      const segs: Bolt["segments"] = [];
-      const steps = 4 + Math.floor(Math.random() * 4);
+      const pts: [number,number][] = [];
+      let x = cx, y = cy;
+      const steps = 6 + Math.floor(Math.random() * 6);
+      const len = 120 + Math.random() * 100;
 
-      for (let i = 0; i < steps; i++) {
-        const t = (i + 1) / steps;
-        const nx = x + (tx - x) * (1 / steps) + (Math.random() - 0.5) * 20;
-        const ny = y + (ty - y) * (1 / steps) + (Math.random() - 0.5) * 20;
-        segs.push({ x1: x, y1: y, x2: t < 1 ? nx : tx, y2: t < 1 ? ny : ty });
-        x = nx;
-        y = ny;
+      for (let i = 0; i <= steps; i++) {
+        pts.push([x, y]);
+        const stepLen = len / steps;
+        x += Math.cos(angle) * stepLen + (Math.random() - 0.5) * 40;
+        y += Math.sin(angle) * stepLen + (Math.random() - 0.5) * 40;
       }
-
-      bolts.push({ segments: segs, life: 0, maxLife: 8 + Math.random() * 6 });
+      bolts.push({ pts, life: 0, max: 12 + Math.random() * 8, width: 1 + Math.random() * 2 });
     };
 
-    let frame = 0;
-
     const loop = () => {
-      ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
-      frame++;
+      ctx.clearRect(0, 0, W, H);
+      t++;
 
-      // Spawn particles
-      if (frame % 3 === 0) spawn();
-      if (frame % 90 === 0) spawnBolt();
+      const cx = W / 2;
+      const cy = H / 2;
+      const orbRadius = Math.min(W, H) * 0.18;
 
-      // Draw/update particles
+      // === BEAMS ===
+      for (const beam of beams) {
+        beam.angle += beam.speed;
+        const grad = ctx.createLinearGradient(
+          cx, cy,
+          cx + Math.cos(beam.angle) * beam.length,
+          cy + Math.sin(beam.angle) * beam.length
+        );
+        grad.addColorStop(0, `rgba(220, 38, 38, ${beam.opacity * 2})`);
+        grad.addColorStop(0.3, `rgba(220, 38, 38, ${beam.opacity})`);
+        grad.addColorStop(1, "rgba(220, 38, 38, 0)");
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(
+          cx + Math.cos(beam.angle) * beam.length,
+          cy + Math.sin(beam.angle) * beam.length
+        );
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = beam.width;
+        ctx.stroke();
+      }
+
+      // === OUTER GLOW RINGS ===
+      for (let i = 3; i >= 0; i--) {
+        const r = orbRadius + 20 + i * 30;
+        const pulse = Math.sin(t * 0.02 + i) * 0.3 + 0.7;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(220, 38, 38, ${0.03 * pulse})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // === ORB GLOW (multiple layers) ===
+      // Huge ambient glow
+      const ambientGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, orbRadius * 3);
+      ambientGrad.addColorStop(0, "rgba(220, 38, 38, 0.15)");
+      ambientGrad.addColorStop(0.3, "rgba(220, 38, 38, 0.06)");
+      ambientGrad.addColorStop(0.7, "rgba(220, 38, 38, 0.02)");
+      ambientGrad.addColorStop(1, "rgba(220, 38, 38, 0)");
+      ctx.beginPath();
+      ctx.arc(cx, cy, orbRadius * 3, 0, Math.PI * 2);
+      ctx.fillStyle = ambientGrad;
+      ctx.fill();
+
+      // Main orb body
+      const pulse = Math.sin(t * 0.03) * 0.15 + 0.85;
+      const orbGrad = ctx.createRadialGradient(cx - orbRadius * 0.2, cy - orbRadius * 0.2, 0, cx, cy, orbRadius);
+      orbGrad.addColorStop(0, `rgba(253, 83, 82, ${0.5 * pulse})`);
+      orbGrad.addColorStop(0.4, `rgba(220, 38, 38, ${0.35 * pulse})`);
+      orbGrad.addColorStop(0.7, `rgba(185, 28, 28, ${0.2 * pulse})`);
+      orbGrad.addColorStop(1, "rgba(127, 29, 29, 0.05)");
+      ctx.beginPath();
+      ctx.arc(cx, cy, orbRadius, 0, Math.PI * 2);
+      ctx.fillStyle = orbGrad;
+      ctx.fill();
+
+      // Bright core
+      const coreGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, orbRadius * 0.4);
+      coreGrad.addColorStop(0, `rgba(255, 200, 200, ${0.3 * pulse})`);
+      coreGrad.addColorStop(0.5, `rgba(253, 83, 82, ${0.15 * pulse})`);
+      coreGrad.addColorStop(1, "rgba(220, 38, 38, 0)");
+      ctx.beginPath();
+      ctx.arc(cx, cy, orbRadius * 0.4, 0, Math.PI * 2);
+      ctx.fillStyle = coreGrad;
+      ctx.fill();
+
+      // Specular highlight
+      const specGrad = ctx.createRadialGradient(cx - orbRadius * 0.25, cy - orbRadius * 0.3, 0, cx, cy, orbRadius * 0.6);
+      specGrad.addColorStop(0, "rgba(255, 255, 255, 0.12)");
+      specGrad.addColorStop(0.5, "rgba(255, 255, 255, 0.03)");
+      specGrad.addColorStop(1, "rgba(255, 255, 255, 0)");
+      ctx.beginPath();
+      ctx.arc(cx, cy, orbRadius * 0.6, 0, Math.PI * 2);
+      ctx.fillStyle = specGrad;
+      ctx.fill();
+
+      // === ORBITING DOTS ===
+      for (const dot of dots) {
+        dot.angle += dot.speed;
+        const dx = cx + Math.cos(dot.angle) * dot.dist;
+        const dy = cy + Math.sin(dot.angle) * dot.dist;
+        const distFromOrb = dot.dist - orbRadius;
+        const alpha = Math.max(0.1, 1 - distFromOrb / 150);
+
+        // Trail
+        ctx.beginPath();
+        ctx.arc(dx, dy, dot.size * 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(220, 38, 38, ${alpha * 0.1})`;
+        ctx.fill();
+
+        // Dot
+        ctx.beginPath();
+        ctx.arc(dx, dy, dot.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(253, 83, 82, ${alpha})`;
+        ctx.fill();
+      }
+
+      // === SPAWN PARTICLES ===
+      if (t % 2 === 0) {
+        const angle = Math.random() * Math.PI * 2;
+        const dist = orbRadius + Math.random() * 10;
+        const speed = 0.5 + Math.random() * 1.5;
+        particles.push({
+          x: cx + Math.cos(angle) * dist,
+          y: cy + Math.sin(angle) * dist,
+          vx: Math.cos(angle) * speed + (Math.random() - 0.5) * 0.8,
+          vy: Math.sin(angle) * speed - Math.random() * 0.5,
+          life: 0,
+          max: 40 + Math.random() * 60,
+          size: 1 + Math.random() * 2.5,
+        });
+      }
+
+      // === DRAW PARTICLES ===
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
         p.life++;
+        if (p.life > p.max) { particles.splice(i, 1); continue; }
 
-        if (p.life > p.maxLife) {
-          particles.splice(i, 1);
-          continue;
-        }
-
-        const alpha = p.brightness * (1 - p.life / p.maxLife);
+        const alpha = 1 - p.life / p.max;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(253, 83, 82, ${alpha})`;
+        ctx.fillStyle = `rgba(253, 83, 82, ${alpha * 0.8})`;
         ctx.fill();
 
-        // Glow
+        // Particle glow
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(220, 38, 38, ${alpha * 0.15})`;
+        ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(220, 38, 38, ${alpha * 0.08})`;
         ctx.fill();
       }
 
-      // Draw/update bolts
+      // === LIGHTNING ===
+      if (t % 40 === 0) makeBolt(cx, cy);
+      if (t % 60 === 0) makeBolt(cx, cy);
+
       for (let i = bolts.length - 1; i >= 0; i--) {
         const b = bolts[i];
         b.life++;
-        if (b.life > b.maxLife) {
-          bolts.splice(i, 1);
-          continue;
-        }
+        if (b.life > b.max) { bolts.splice(i, 1); continue; }
 
-        const alpha = 1 - b.life / b.maxLife;
-        ctx.strokeStyle = `rgba(253, 83, 82, ${alpha * 0.8})`;
-        ctx.lineWidth = 1.5;
-        ctx.shadowColor = "rgba(220, 38, 38, 0.6)";
-        ctx.shadowBlur = 8;
+        const alpha = 1 - b.life / b.max;
 
-        for (const seg of b.segments) {
-          ctx.beginPath();
-          ctx.moveTo(seg.x1, seg.y1);
-          ctx.lineTo(seg.x2, seg.y2);
-          ctx.stroke();
+        // Bolt glow
+        ctx.shadowColor = `rgba(253, 83, 82, ${alpha * 0.8})`;
+        ctx.shadowBlur = 15;
+        ctx.strokeStyle = `rgba(255, 180, 180, ${alpha * 0.9})`;
+        ctx.lineWidth = b.width;
+        ctx.beginPath();
+        ctx.moveTo(b.pts[0][0], b.pts[0][1]);
+        for (let j = 1; j < b.pts.length; j++) {
+          ctx.lineTo(b.pts[j][0], b.pts[j][1]);
         }
+        ctx.stroke();
+
+        // Thinner bright core
+        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.5})`;
+        ctx.lineWidth = b.width * 0.3;
+        ctx.beginPath();
+        ctx.moveTo(b.pts[0][0], b.pts[0][1]);
+        for (let j = 1; j < b.pts.length; j++) {
+          ctx.lineTo(b.pts[j][0], b.pts[j][1]);
+        }
+        ctx.stroke();
+
         ctx.shadowBlur = 0;
       }
+
+      // === BOLT icon in center ===
+      const iconSize = orbRadius * 0.45;
+      const ix = cx - iconSize / 2;
+      const iy = cy - iconSize / 2;
+      const iconPulse = Math.sin(t * 0.05) * 0.2 + 0.8;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(iconPulse, iconPulse);
+      ctx.translate(-cx, -cy);
+
+      ctx.shadowColor = "rgba(220, 38, 38, 0.8)";
+      ctx.shadowBlur = 20;
+      ctx.fillStyle = `rgba(253, 83, 82, ${0.7 + iconPulse * 0.3})`;
+
+      // Lightning bolt path
+      ctx.beginPath();
+      ctx.moveTo(ix + iconSize * 0.55, iy);
+      ctx.lineTo(ix + iconSize * 0.2, iy + iconSize * 0.5);
+      ctx.lineTo(ix + iconSize * 0.45, iy + iconSize * 0.5);
+      ctx.lineTo(ix + iconSize * 0.35, iy + iconSize);
+      ctx.lineTo(ix + iconSize * 0.8, iy + iconSize * 0.4);
+      ctx.lineTo(ix + iconSize * 0.55, iy + iconSize * 0.4);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.shadowBlur = 0;
+      ctx.restore();
 
       animId = requestAnimationFrame(loop);
     };
@@ -160,87 +292,7 @@ function SparkCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full z-10 pointer-events-none"
+      className="w-[320px] h-[320px] md:w-[420px] md:h-[420px] lg:w-[500px] lg:h-[500px]"
     />
-  );
-}
-
-export default function HeroOrb() {
-  return (
-    <div className="relative w-[320px] h-[320px] md:w-[400px] md:h-[400px] lg:w-[480px] lg:h-[480px]">
-      {/* Particle + bolt canvas */}
-      <SparkCanvas />
-
-      {/* Outer glow ring */}
-      <motion.div
-        className="absolute inset-[15%] rounded-full"
-        style={{
-          background: "radial-gradient(circle, rgba(220,38,38,0.08) 0%, transparent 70%)",
-        }}
-        animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Rotating ring 1 */}
-      <motion.div
-        className="absolute inset-[20%] rounded-full border border-primary/20"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-      >
-        <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(220,38,38,0.8)]" />
-      </motion.div>
-
-      {/* Rotating ring 2 (opposite) */}
-      <motion.div
-        className="absolute inset-[28%] rounded-full border border-primary/10"
-        animate={{ rotate: -360 }}
-        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-      >
-        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-primary-400 shadow-[0_0_8px_rgba(220,38,38,0.6)]" />
-        <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary-400 shadow-[0_0_8px_rgba(220,38,38,0.6)]" />
-      </motion.div>
-
-      {/* Core orb */}
-      <motion.div
-        className="absolute inset-[30%] rounded-full"
-        style={{
-          background: "radial-gradient(circle at 40% 35%, rgba(253,83,82,0.25) 0%, rgba(220,38,38,0.15) 30%, rgba(185,28,28,0.08) 60%, transparent 80%)",
-          boxShadow: "0 0 80px 20px rgba(220,38,38,0.15), inset 0 0 40px 10px rgba(220,38,38,0.1)",
-        }}
-        animate={{
-          boxShadow: [
-            "0 0 80px 20px rgba(220,38,38,0.15), inset 0 0 40px 10px rgba(220,38,38,0.1)",
-            "0 0 100px 30px rgba(220,38,38,0.25), inset 0 0 50px 15px rgba(220,38,38,0.15)",
-            "0 0 80px 20px rgba(220,38,38,0.15), inset 0 0 40px 10px rgba(220,38,38,0.1)",
-          ],
-        }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Inner highlight */}
-      <motion.div
-        className="absolute inset-[38%] rounded-full"
-        style={{
-          background: "radial-gradient(circle at 35% 30%, rgba(255,255,255,0.1) 0%, transparent 50%)",
-        }}
-        animate={{ opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Lightning bolt SVG icon in center */}
-      <div className="absolute inset-0 flex items-center justify-center z-20">
-        <motion.svg
-          width="48"
-          height="48"
-          viewBox="0 0 24 24"
-          fill="none"
-          className="text-primary drop-shadow-[0_0_12px_rgba(220,38,38,0.6)]"
-          animate={{ opacity: [0.7, 1, 0.7], scale: [0.95, 1.05, 0.95] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <path d="M13 10V3L4 14h7v7l9-11h-7z" fill="currentColor" />
-        </motion.svg>
-      </div>
-    </div>
   );
 }
