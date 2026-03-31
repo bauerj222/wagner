@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Counter, Marquee } from "@/components/HeroOrb";
-import AuroraHero from "@/components/AuroraHero";
+import { BackgroundGradientAnimation } from "@/components/BackgroundGradientAnimation";
 
 const reveal = {
   initial: { opacity: 0, y: 20 },
@@ -23,8 +23,9 @@ const SERVICES = [
 
 function Hero() {
   return (
-    <AuroraHero>
-      <div className="max-w-3xl mx-auto px-5 text-center pt-28 pb-20">
+    <BackgroundGradientAnimation containerClassName="!h-screen">
+      <div className="absolute inset-0 flex items-center justify-center z-10">
+      <div className="max-w-3xl mx-auto px-5 text-center">
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -75,7 +76,8 @@ function Hero() {
           </a>
         </motion.div>
       </div>
-    </AuroraHero>
+      </div>
+    </BackgroundGradientAnimation>
   );
 }
 
