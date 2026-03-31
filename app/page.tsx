@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
+import HeroOrb from "@/components/HeroOrb";
 
 const fadeUp = {
   initial: { opacity: 0, y: 32 },
@@ -36,59 +37,74 @@ function HeroSection() {
         <div className="absolute bottom-0 left-0 w-[500px] h-[300px] bg-primary/5 rounded-full blur-[80px]" />
       </div>
 
-      <motion.div style={{ y, opacity }} className="relative z-10 max-w-5xl mx-auto px-4 text-center pt-32 pb-20">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] as const }}
-        >
-          <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.15em] font-medium bg-white/5 text-white/50 border border-white/10 mb-8 backdrop-blur-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            Innungs-Meisterbetrieb seit 1972
-          </span>
-        </motion.div>
+      <motion.div style={{ y, opacity }} className="relative z-10 max-w-7xl mx-auto px-4 w-full pt-32 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          {/* Left: Text */}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] as const }}
+            >
+              <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.15em] font-medium bg-white/5 text-white/50 border border-white/10 mb-8 backdrop-blur-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                Innungs-Meisterbetrieb seit 1972
+              </span>
+            </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.1, ease: [0.32, 0.72, 0, 1] as const }}
-          className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-8"
-        >
-          <span className="text-gradient">Elektro aus</span>
-          <br />
-          <span className="text-gradient-red">Meisterhand.</span>
-        </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.1, ease: [0.32, 0.72, 0, 1] as const }}
+              className="text-5xl sm:text-6xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.05] mb-8"
+            >
+              <span className="text-gradient">Elektro aus</span>
+              <br />
+              <span className="text-gradient-red">Meisterhand.</span>
+            </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: [0.32, 0.72, 0, 1] as const }}
-          className="text-lg lg:text-xl text-white/40 max-w-xl mx-auto mb-12 leading-relaxed"
-        >
-          25 Mitarbeiter. 2 Meister. Über 50 Jahre Erfahrung.
-          Ihr Elektrobetrieb in Eching bei München.
-        </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2, ease: [0.32, 0.72, 0, 1] as const }}
+              className="text-lg lg:text-xl text-white/40 max-w-md mb-12 leading-relaxed"
+            >
+              25 Mitarbeiter. 2 Meister. Über 50 Jahre Erfahrung.
+              Ihr Elektrobetrieb in Eching bei München.
+            </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.35, ease: [0.32, 0.72, 0, 1] as const }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <Link
-            href="/kontakt"
-            className="group relative px-8 py-4 bg-primary text-white font-semibold rounded-full overflow-hidden transition-all duration-500 hover:scale-[1.03] active:scale-[0.98] glow-red"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.35, ease: [0.32, 0.72, 0, 1] as const }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <Link
+                href="/kontakt"
+                className="group relative px-8 py-4 bg-primary text-white font-semibold rounded-full overflow-hidden transition-all duration-500 hover:scale-[1.03] active:scale-[0.98] glow-red text-center"
+              >
+                <span className="relative z-10">Projekt besprechen</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              </Link>
+              <a
+                href="tel:08931926484"
+                className="px-8 py-4 text-white/60 font-medium rounded-full border border-white/10 hover:border-white/20 hover:text-white/80 hover:bg-white/5 transition-all duration-300 backdrop-blur-sm text-center"
+              >
+                (089) 319 26 84
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Right: Animated Orb */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.3, ease: [0.32, 0.72, 0, 1] as const }}
+            className="flex items-center justify-center"
           >
-            <span className="relative z-10">Projekt besprechen</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          </Link>
-          <a
-            href="tel:08931926484"
-            className="px-8 py-4 text-white/60 font-medium rounded-full border border-white/10 hover:border-white/20 hover:text-white/80 hover:bg-white/5 transition-all duration-300 backdrop-blur-sm"
-          >
-            (089) 319 26 84
-          </a>
-        </motion.div>
+            <HeroOrb />
+          </motion.div>
+        </div>
       </motion.div>
 
       {/* Bottom gradient fade */}
