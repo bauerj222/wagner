@@ -111,10 +111,10 @@ export default function Leistungen() {
             <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-primary/10 text-primary mb-5">
               Unsere Leistungen
             </span>
-            <h1 className="text-4xl lg:text-6xl font-bold text-foreground tracking-tight mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6">
               Alles aus <span className="text-primary">einer Hand</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-white/40 max-w-2xl mx-auto leading-relaxed">
               Von der Planung bis zur Fertigstellung bieten wir Ihnen das komplette Leistungsspektrum
               eines Innungs-Meisterbetriebs. Fachgerecht, termingerecht und zuverlässig.
             </p>
@@ -123,14 +123,14 @@ export default function Leistungen() {
       </section>
 
       {/* Services detail */}
-      <section className="py-20 lg:py-28 px-4 bg-white">
+      <section className="py-20 lg:py-28 px-4 bg-card/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto space-y-12">
           {SERVICES.map((service, i) => (
             <motion.div
               key={service.title}
               {...fadeIn}
               transition={{ ...fadeIn.transition, delay: i * 0.05 }}
-              className="group rounded-2xl border border-border bg-white hover:shadow-lg hover:border-primary/20 transition-all duration-500 overflow-hidden"
+              className="group rounded-2xl border border-white/5 bg-card/80 backdrop-blur-sm hover:shadow-lg hover:border-primary/20 transition-all duration-500 overflow-hidden"
             >
               <div className="p-8 lg:p-10">
                 <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-10">
@@ -149,7 +149,7 @@ export default function Leistungen() {
                         <path d={service.icon} />
                       </svg>
                     </div>
-                    <h2 className="text-2xl font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
+                    <h2 className="text-2xl font-bold text-white mb-1 group-hover:text-primary transition-colors">
                       {service.title}
                     </h2>
                     <p className="text-sm text-primary font-medium">{service.subtitle}</p>
@@ -157,12 +157,12 @@ export default function Leistungen() {
 
                   {/* Description + details */}
                   <div className="lg:w-2/3">
-                    <p className="text-muted-foreground leading-relaxed mb-6">
+                    <p className="text-white/40 leading-relaxed mb-6">
                       {service.description}
                     </p>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {service.details.map((detail) => (
-                        <li key={detail} className="flex items-start gap-2 text-sm text-foreground">
+                        <li key={detail} className="flex items-start gap-2 text-sm text-white">
                           <svg
                             className="w-4 h-4 text-primary mt-0.5 shrink-0"
                             fill="none"
@@ -189,13 +189,13 @@ export default function Leistungen() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 lg:py-28 px-4 bg-muted/50 border-t border-border">
+      <section className="py-20 lg:py-28 px-4 bg-card/50 border-t border-white/5">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div {...fadeIn}>
-            <h2 className="text-3xl lg:text-5xl font-bold text-foreground tracking-tight mb-5">
+            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-5">
               Interesse geweckt?
             </h2>
-            <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
+            <p className="text-lg text-white/40 mb-10 max-w-xl mx-auto">
               Wir beraten Sie gerne persönlich und erstellen Ihnen ein unverbindliches Angebot
               für Ihr Projekt.
             </p>
@@ -208,7 +208,7 @@ export default function Leistungen() {
               </Link>
               <a
                 href="tel:08931926484"
-                className="px-8 py-4 border border-foreground/15 text-foreground font-medium rounded-full hover:bg-foreground/5 transition-all duration-300"
+                className="px-8 py-4 border border-foreground/15 text-white font-medium rounded-full hover:bg-foreground/5 transition-all duration-300"
               >
                 (089) 319 26 84
               </a>

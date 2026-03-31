@@ -6,19 +6,19 @@ export default function Datenschutz() {
   return (
     <main className="pt-32 pb-20 lg:pt-40 lg:pb-28 px-4">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-12">
+        <h1 className="text-4xl lg:text-5xl font-bold text-white tracking-tight mb-12">
           Datenschutz&shy;erkl&auml;rung
         </h1>
-        <div className="prose prose-neutral max-w-none text-muted-foreground leading-relaxed space-y-8">
+        <div className="prose prose-neutral max-w-none text-white/40 leading-relaxed space-y-8">
           <section>
-            <h2 className="text-xl font-semibold text-foreground mt-0">1. Datenschutz auf einen Blick</h2>
-            <h3 className="text-base font-semibold text-foreground">Allgemeine Hinweise</h3>
+            <h2 className="text-xl font-semibold text-white mt-0">1. Datenschutz auf einen Blick</h2>
+            <h3 className="text-base font-semibold text-white">Allgemeine Hinweise</h3>
             <p>
               Die folgenden Hinweise geben einen einfachen &Uuml;berblick dar&uuml;ber, was mit Ihren
               personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten
               sind alle Daten, mit denen Sie pers&ouml;nlich identifiziert werden k&ouml;nnen.
             </p>
-            <h3 className="text-base font-semibold text-foreground">Datenerfassung auf dieser Website</h3>
+            <h3 className="text-base font-semibold text-white">Datenerfassung auf dieser Website</h3>
             <p>
               Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Dessen
               Kontaktdaten k&ouml;nnen Sie dem Abschnitt &bdquo;Hinweis zur verantwortlichen Stelle&ldquo;
@@ -27,7 +27,7 @@ export default function Datenschutz() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-foreground">2. Hosting</h2>
+            <h2 className="text-xl font-semibold text-white">2. Hosting</h2>
             <p>
               Diese Website wird bei einem externen Dienstleister gehostet (Hoster). Die
               personenbezogenen Daten, die auf dieser Website erfasst werden, werden auf den Servern
@@ -38,7 +38,7 @@ export default function Datenschutz() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-foreground">3. Verantwortliche Stelle</h2>
+            <h2 className="text-xl font-semibold text-white">3. Verantwortliche Stelle</h2>
             <p>
               Elektro Wagner GmbH &amp; Co. KG<br />
               Erfurter Stra&szlig;e 7<br />
@@ -49,7 +49,7 @@ export default function Datenschutz() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-foreground">4. Dauer der Speicherung</h2>
+            <h2 className="text-xl font-semibold text-white">4. Dauer der Speicherung</h2>
             <p>
               Soweit innerhalb dieser Datenschutzerkl&auml;rung keine speziellere Speicherdauer
               genannt wurde, verbleiben Ihre personenbezogenen Daten bei uns, bis der Zweck f&uuml;r
@@ -58,7 +58,7 @@ export default function Datenschutz() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-foreground">5. Allgemeine Hinweise zu den Rechtsgrundlagen</h2>
+            <h2 className="text-xl font-semibold text-white">5. Allgemeine Hinweise zu den Rechtsgrundlagen</h2>
             <p>
               Sofern Sie in die Datenverarbeitung eingewilligt haben, verarbeiten wir Ihre
               personenbezogenen Daten auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO bzw.
@@ -69,7 +69,7 @@ export default function Datenschutz() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-foreground">6. Ihre Rechte</h2>
+            <h2 className="text-xl font-semibold text-white">6. Ihre Rechte</h2>
             <p>Sie haben jederzeit das Recht:</p>
             <ul className="list-disc pl-6 space-y-1">
               <li>unentgeltlich Auskunft &uuml;ber Herkunft, Empf&auml;nger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten (Art. 15 DSGVO)</li>
@@ -82,7 +82,7 @@ export default function Datenschutz() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-foreground">7. Server-Log-Dateien</h2>
+            <h2 className="text-xl font-semibold text-white">7. Server-Log-Dateien</h2>
             <p>
               Der Provider der Seiten erhebt und speichert automatisch Informationen in so genannten
               Server-Log-Dateien, die Ihr Browser automatisch an uns &uuml;bermittelt. Dies sind:
@@ -94,7 +94,7 @@ export default function Datenschutz() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-foreground">8. Kontaktformular</h2>
+            <h2 className="text-xl font-semibold text-white">8. Kontaktformular</h2>
             <p>
               Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem
               Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung

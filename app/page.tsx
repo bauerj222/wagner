@@ -1,248 +1,293 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import Link from "next/link";
 
-const fadeIn = {
-  initial: { opacity: 0, y: 24 },
+const fadeUp = {
+  initial: { opacity: 0, y: 32 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.7, ease: [0.32, 0.72, 0, 1] as const },
+  viewport: { once: true, margin: "-60px" },
+  transition: { duration: 0.8, ease: [0.32, 0.72, 0, 1] as const },
 };
 
-const STATS = [
-  { value: "1972", label: "Gegründet" },
-  { value: "25", label: "Mitarbeiter" },
-  { value: "50+", label: "Jahre Erfahrung" },
-  { value: "2", label: "Meister" },
-];
-
 const SERVICES = [
-  {
-    icon: "M13 10V3L4 14h7v7l9-11h-7z",
-    title: "Elektroinstallationen",
-    description: "Komplette Elektroinstallationen für Wohnbau, Sanierung und Neubau — fachgerecht und zuverlässig.",
-  },
-  {
-    icon: "M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z",
-    title: "EDV-Netzwerke",
-    description: "Professionelle Kabelverlegung für EDV-Netze inkl. Anschlusstechnik und Messprotokoll.",
-  },
-  {
-    icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z",
-    title: "Kundendienst",
-    description: "Schneller Service, Wartung und technische Unterstützung — wir sind für Sie da.",
-  },
-  {
-    icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
-    title: "Gewerbe & Industrie",
-    description: "Elektroarbeiten für Betriebsgebäude, Bestandsgebäude und Neubauprojekte jeder Größe.",
-  },
-  {
-    icon: "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0",
-    title: "Kabel- & Sat-Anlagen",
-    description: "Installation und Einrichtung von Kabel- und Satellitensystemen für besten Empfang.",
-  },
-  {
-    icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
-    title: "Kernbohrungen",
-    description: "Präzise Bohrungen in Ziegel und Beton bis 250mm Durchmesser.",
-  },
+  { icon: "M13 10V3L4 14h7v7l9-11h-7z", title: "Elektroinstallationen", desc: "Wohnbau, Sanierung & Neubau" },
+  { icon: "M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z", title: "EDV-Netzwerke", desc: "Kabelverlegung & Messtechnik" },
+  { icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z", title: "Kundendienst", desc: "Wartung & Reparatur" },
+  { icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4", title: "Gewerbe & Industrie", desc: "Alt- & Neubauten" },
+  { icon: "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0", title: "Kabel & Sat", desc: "TV- & Satellitenanlagen" },
+  { icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z", title: "Kernbohrungen", desc: "Bis 250mm in Beton" },
 ];
 
-export default function Home() {
+function HeroSection() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
   return (
-    <main>
-      {/* Hero */}
-      <section className="relative min-h-screen flex items-center bg-gradient-to-br from-white via-white to-primary-50 overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-primary-100/40 rounded-full blur-3xl" />
-        </div>
+    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 dot-pattern" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/8 rounded-full blur-[120px]" />
+        <div className="absolute top-1/3 right-0 w-[400px] h-[400px] bg-primary-900/20 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[300px] bg-primary/5 rounded-full blur-[80px]" />
+      </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 w-full pt-32 pb-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <motion.div style={{ y, opacity }} className="relative z-10 max-w-5xl mx-auto px-4 text-center pt-32 pb-20">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] as const }}
+        >
+          <span className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.15em] font-medium bg-white/5 text-white/50 border border-white/10 mb-8 backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            Innungs-Meisterbetrieb seit 1972
+          </span>
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.1, ease: [0.32, 0.72, 0, 1] as const }}
+          className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.05] mb-8"
+        >
+          <span className="text-gradient">Elektro aus</span>
+          <br />
+          <span className="text-gradient-red">Meisterhand.</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2, ease: [0.32, 0.72, 0, 1] as const }}
+          className="text-lg lg:text-xl text-white/40 max-w-xl mx-auto mb-12 leading-relaxed"
+        >
+          25 Mitarbeiter. 2 Meister. Über 50 Jahre Erfahrung.
+          Ihr Elektrobetrieb in Eching bei München.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.35, ease: [0.32, 0.72, 0, 1] as const }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <Link
+            href="/kontakt"
+            className="group relative px-8 py-4 bg-primary text-white font-semibold rounded-full overflow-hidden transition-all duration-500 hover:scale-[1.03] active:scale-[0.98] glow-red"
+          >
+            <span className="relative z-10">Projekt besprechen</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          </Link>
+          <a
+            href="tel:08931926484"
+            className="px-8 py-4 text-white/60 font-medium rounded-full border border-white/10 hover:border-white/20 hover:text-white/80 hover:bg-white/5 transition-all duration-300 backdrop-blur-sm"
+          >
+            (089) 319 26 84
+          </a>
+        </motion.div>
+      </motion.div>
+
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+    </section>
+  );
+}
+
+function StatsSection() {
+  const stats = [
+    { value: "1972", label: "Gegründet", suffix: "" },
+    { value: "50", label: "Jahre Erfahrung", suffix: "+" },
+    { value: "25", label: "Mitarbeiter", suffix: "" },
+    { value: "2", label: "Meister", suffix: "" },
+  ];
+
+  return (
+    <section className="relative py-20 px-4">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 rounded-2xl overflow-hidden">
+          {stats.map((stat, i) => (
             <motion.div
-              initial={{ opacity: 0, x: -32 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.9, ease: [0.32, 0.72, 0, 1] as const }}
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.32, 0.72, 0, 1] as const }}
+              className="bg-card/50 backdrop-blur-sm p-8 lg:p-10 text-center"
             >
-              <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-primary/10 text-primary mb-6">
-                Seit 1972 in Eching
+              <span className="text-4xl lg:text-5xl font-bold text-gradient-red block">
+                {stat.value}{stat.suffix}
               </span>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground tracking-tight leading-[1.1] mb-6">
-                Ihr Elektriker{" "}
-                <span className="text-primary">aus Eching</span>
-              </h1>
-              <p className="text-lg lg:text-xl text-muted-foreground max-w-md mb-10 leading-relaxed">
-                Innungs-Meisterbetrieb mit über 50 Jahren Erfahrung.
-                25 Mitarbeiter für Elektroinstallationen im Großraum München.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/kontakt"
-                  className="px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary-700 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-center shadow-lg shadow-primary/20"
-                >
-                  Kontakt aufnehmen
-                </Link>
-                <a
-                  href="tel:08931926484"
-                  className="px-8 py-4 border border-foreground/15 text-foreground font-medium rounded-full hover:bg-foreground/5 transition-all duration-300 text-center"
-                >
-                  (089) 319 26 84
-                </a>
-              </div>
+              <span className="text-xs text-white/30 mt-2 block uppercase tracking-widest font-medium">
+                {stat.label}
+              </span>
             </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
+function ServicesSection() {
+  return (
+    <section className="relative py-24 lg:py-32 px-4">
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-1/3 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px]" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto">
+        <motion.div {...fadeUp} className="mb-16 text-center">
+          <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold text-primary bg-primary/10 border border-primary/20 mb-6">
+            Leistungen
+          </span>
+          <h2 className="text-3xl lg:text-5xl font-bold tracking-tight text-gradient mb-4">
+            Alles aus einer Hand
+          </h2>
+          <p className="text-white/30 max-w-lg mx-auto text-base lg:text-lg">
+            Von der Reparatur bis zur Komplettinstallation.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {SERVICES.map((s, i) => (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.9, delay: 0.2, ease: [0.32, 0.72, 0, 1] as const }}
-              className="relative"
+              key={s.title}
+              {...fadeUp}
+              transition={{ duration: 0.7, delay: i * 0.08, ease: [0.32, 0.72, 0, 1] as const }}
             >
-              <div className="grid grid-cols-2 gap-4">
-                {STATS.map((stat, i) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }}
-                    className="p-6 lg:p-8 rounded-2xl bg-white border border-border shadow-sm text-center"
-                  >
-                    <span className="text-3xl lg:text-4xl font-bold text-primary block">{stat.value}</span>
-                    <span className="text-xs text-muted-foreground mt-1 block uppercase tracking-wider font-medium">{stat.label}</span>
-                  </motion.div>
-                ))}
+              <div className="border-glow group relative p-6 lg:p-8 bg-card/80 backdrop-blur-sm rounded-2xl border border-white/5 hover:border-white/10 transition-all duration-500">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors duration-500">
+                  <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                    <path d={s.icon} />
+                  </svg>
+                </div>
+                <h3 className="text-base font-semibold text-white mb-1 group-hover:text-primary-400 transition-colors duration-300">
+                  {s.title}
+                </h3>
+                <p className="text-sm text-white/30">{s.desc}</p>
               </div>
             </motion.div>
-          </div>
+          ))}
         </div>
-      </section>
 
-      {/* Services */}
-      <section className="py-24 lg:py-32 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div {...fadeIn} className="mb-16 text-center">
-            <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-primary/10 text-primary mb-5">
-              Leistungen
-            </span>
-            <h2 className="text-3xl lg:text-5xl font-bold text-foreground tracking-tight">
-              Was wir für Sie tun
-            </h2>
-            <p className="text-muted-foreground mt-4 max-w-lg mx-auto text-base lg:text-lg">
-              Von der kleinen Reparatur bis zur kompletten Elektroinstallation — alles aus einer Hand.
-            </p>
-          </motion.div>
+        <motion.div {...fadeUp} className="mt-10 text-center">
+          <Link href="/leistungen" className="inline-flex items-center gap-2 text-sm font-medium text-white/40 hover:text-primary-400 transition-colors duration-300">
+            Alle Leistungen im Detail
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {SERVICES.map((service, i) => (
-              <motion.div key={service.title} {...fadeIn} transition={{ ...fadeIn.transition, delay: i * 0.08 }}>
-                <div className="group p-6 lg:p-8 rounded-2xl border border-border bg-white hover:shadow-lg hover:border-primary/20 transition-all duration-500">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
-                    <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                      <path d={service.icon} />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div {...fadeIn} className="mt-12 text-center">
-            <Link href="/leistungen" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary-700 transition-colors">
-              Alle Leistungen im Detail
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* About teaser */}
-      <section className="py-24 lg:py-32 px-4 bg-muted/50 border-y border-border">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <motion.div {...fadeIn}>
-              <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-primary/10 text-primary mb-5">
+function AboutSection() {
+  return (
+    <section className="relative py-24 lg:py-32 px-4">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          {/* Large card */}
+          <motion.div {...fadeUp} className="lg:col-span-3 border-glow relative p-8 lg:p-12 bg-card/80 backdrop-blur-sm rounded-2xl border border-white/5 overflow-hidden">
+            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[80px]" />
+            <div className="relative">
+              <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold text-primary bg-primary/10 border border-primary/20 mb-6">
                 Über uns
               </span>
-              <h2 className="text-3xl lg:text-5xl font-bold text-foreground tracking-tight mb-6">
-                Familienbetrieb in 3. Generation
+              <h2 className="text-3xl lg:text-4xl font-bold tracking-tight text-gradient mb-6">
+                Familienbetrieb in<br />3. Generation
               </h2>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                1972 von Ernst Wagner gegründet, wird das Unternehmen heute von Jürgen und Sebastian Wagner
-                als Meisterbetrieb geführt. Mit 25 Mitarbeitern — darunter 2 Meister, 18 Gesellen und
-                5 Auszubildende — sind wir Ihr kompetenter Partner für alle Elektroarbeiten im Großraum München.
+              <p className="text-white/40 leading-relaxed mb-4 max-w-lg">
+                1972 von Ernst Wagner gegründet, wird das Unternehmen heute von Jürgen
+                und Sebastian Wagner als Meisterbetrieb geführt.
               </p>
-              <p className="text-muted-foreground leading-relaxed mb-8">
+              <p className="text-white/30 leading-relaxed mb-8 max-w-lg text-sm">
                 &bdquo;Unsere Kunden sind Meistersache. Wenn es um Beratung, Anfragen und Angebote geht,
                 kümmern wir uns persönlich.&ldquo;
               </p>
               <Link
                 href="/ueber-uns"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-foreground/15 text-foreground text-sm font-medium rounded-full hover:bg-foreground/5 transition-all duration-300"
+                className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white/60 border border-white/10 rounded-full hover:text-white hover:border-white/20 hover:bg-white/5 transition-all duration-300"
               >
                 Mehr erfahren
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </Link>
+            </div>
+          </motion.div>
+
+          {/* Right column — stacked cards */}
+          <div className="lg:col-span-2 flex flex-col gap-6">
+            <motion.div {...fadeUp} transition={{ delay: 0.1 }} className="border-glow relative p-8 bg-card/80 backdrop-blur-sm rounded-2xl border border-white/5 flex-1 flex flex-col justify-center text-center">
+              <span className="text-5xl lg:text-6xl font-bold text-gradient-red block">50+</span>
+              <span className="text-sm text-white/30 mt-2">Jahre Erfahrung</span>
             </motion.div>
 
-            <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.15 }}>
-              <div className="space-y-4">
-                {[
-                  { year: "1972", text: "Gründung durch Ernst Wagner in Eching" },
-                  { year: "1996", text: "Übernahme durch Jürgen Wagner (Meister)" },
-                  { year: "2015", text: "Sebastian Wagner wird Meister" },
-                  { year: "2021", text: "Umwandlung in GmbH & Co. KG" },
-                ].map((item, i) => (
-                  <motion.div
-                    key={item.year}
-                    {...fadeIn}
-                    transition={{ ...fadeIn.transition, delay: 0.2 + i * 0.1 }}
-                    className="flex gap-4 items-start p-4 rounded-xl bg-white border border-border"
-                  >
-                    <span className="text-2xl font-bold text-primary shrink-0">{item.year}</span>
-                    <span className="text-sm text-muted-foreground pt-1">{item.text}</span>
-                  </motion.div>
-                ))}
+            <motion.div {...fadeUp} transition={{ delay: 0.2 }} className="border-glow relative p-8 bg-card/80 backdrop-blur-sm rounded-2xl border border-white/5 flex-1 flex flex-col justify-center text-center">
+              <span className="text-5xl lg:text-6xl font-bold text-gradient-red block">25</span>
+              <span className="text-sm text-white/30 mt-2">Mitarbeiter</span>
+              <div className="flex justify-center gap-4 mt-4 text-xs text-white/20">
+                <span>2 Meister</span>
+                <span>&middot;</span>
+                <span>18 Gesellen</span>
+                <span>&middot;</span>
+                <span>5 Azubis</span>
               </div>
             </motion.div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      {/* CTA */}
-      <section className="py-24 lg:py-32 px-4 bg-white">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div {...fadeIn}>
-            <h2 className="text-3xl lg:text-5xl font-bold text-foreground tracking-tight mb-5">
-              Projekt besprechen?
-            </h2>
-            <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
-              Ob Neubau, Sanierung oder Reparatur — wir beraten Sie persönlich und erstellen Ihnen ein unverbindliches Angebot.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/kontakt"
-                className="px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary-700 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-lg shadow-primary/20"
-              >
-                Jetzt Kontakt aufnehmen
-              </Link>
-              <a
-                href="tel:08931926484"
-                className="px-8 py-4 border border-foreground/15 text-foreground font-medium rounded-full hover:bg-foreground/5 transition-all duration-300"
-              >
-                (089) 319 26 84
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+function CTASection() {
+  return (
+    <section className="relative py-24 lg:py-32 px-4">
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/8 rounded-full blur-[120px]" />
+      </div>
+
+      <div className="relative max-w-3xl mx-auto text-center">
+        <motion.div {...fadeUp}>
+          <h2 className="text-3xl lg:text-5xl font-bold tracking-tight mb-5">
+            <span className="text-gradient">Projekt</span>{" "}
+            <span className="text-gradient-red">starten?</span>
+          </h2>
+          <p className="text-lg text-white/30 mb-10 max-w-xl mx-auto">
+            Ob Neubau, Sanierung oder Reparatur — wir beraten Sie persönlich und unverbindlich.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/kontakt"
+              className="group relative px-8 py-4 bg-primary text-white font-semibold rounded-full overflow-hidden transition-all duration-500 hover:scale-[1.03] active:scale-[0.98] glow-red"
+            >
+              <span className="relative z-10">Jetzt Kontakt aufnehmen</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-700 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </Link>
+            <a
+              href="tel:08931926484"
+              className="px-8 py-4 text-white/50 font-medium rounded-full border border-white/10 hover:border-white/20 hover:text-white/70 hover:bg-white/5 transition-all duration-300"
+            >
+              (089) 319 26 84
+            </a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+export default function Home() {
+  return (
+    <main>
+      <HeroSection />
+      <StatsSection />
+      <ServicesSection />
+      <AboutSection />
+      <CTASection />
     </main>
   );
 }

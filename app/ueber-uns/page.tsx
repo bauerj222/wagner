@@ -88,10 +88,10 @@ export default function UeberUns() {
             <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-primary/10 text-primary mb-5">
               Über uns
             </span>
-            <h1 className="text-4xl lg:text-6xl font-bold text-foreground tracking-tight mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6">
               Familienbetrieb seit <span className="text-primary">1972</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-white/40 max-w-2xl mx-auto leading-relaxed">
               Drei Generationen Handwerkskunst. Vom Ein-Mann-Betrieb zum
               Innungs-Meisterbetrieb mit 25 Mitarbeitern — und immer noch persönlich für Sie da.
             </p>
@@ -121,10 +121,10 @@ export default function UeberUns() {
       </section>
 
       {/* Stats */}
-      <section className="py-20 lg:py-28 px-4 bg-white">
+      <section className="py-20 lg:py-28 px-4 bg-card/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
           <motion.div {...fadeIn} className="mb-14 text-center">
-            <h2 className="text-3xl lg:text-5xl font-bold text-foreground tracking-tight">
+            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight">
               Unser Team in Zahlen
             </h2>
           </motion.div>
@@ -134,12 +134,12 @@ export default function UeberUns() {
                 key={stat.label}
                 {...fadeIn}
                 transition={{ ...fadeIn.transition, delay: i * 0.08 }}
-                className="p-6 rounded-2xl bg-white border border-border text-center"
+                className="p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-white/5 text-center"
               >
                 <span className="text-3xl lg:text-4xl font-bold text-primary block">
                   {stat.value}
                 </span>
-                <span className="text-xs text-muted-foreground mt-1 block uppercase tracking-wider font-medium">
+                <span className="text-xs text-white/40 mt-1 block uppercase tracking-wider font-medium">
                   {stat.label}
                 </span>
               </motion.div>
@@ -149,13 +149,13 @@ export default function UeberUns() {
       </section>
 
       {/* Team */}
-      <section className="py-20 lg:py-28 px-4 bg-muted/50 border-y border-border">
+      <section className="py-20 lg:py-28 px-4 bg-card/50 border-y border-white/5">
         <div className="max-w-7xl mx-auto">
           <motion.div {...fadeIn} className="mb-14 text-center">
             <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-primary/10 text-primary mb-5">
               Geschäftsführung
             </span>
-            <h2 className="text-3xl lg:text-5xl font-bold text-foreground tracking-tight">
+            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight">
               Ihre Ansprechpartner
             </h2>
           </motion.div>
@@ -165,17 +165,17 @@ export default function UeberUns() {
                 key={member.name}
                 {...fadeIn}
                 transition={{ ...fadeIn.transition, delay: i * 0.1 }}
-                className="p-8 lg:p-10 rounded-2xl bg-white border border-border"
+                className="p-8 lg:p-10 rounded-2xl bg-card/80 backdrop-blur-sm border border-white/5"
               >
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-5">
                   <span className="text-xl font-bold text-primary">
                     {member.name.split(" ").map((n) => n[0]).join("")}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-1">{member.name}</h3>
+                <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
                 <p className="text-primary font-medium text-sm mb-1">{member.role}</p>
-                <p className="text-xs text-muted-foreground mb-4">{member.since}</p>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-xs text-white/40 mb-4">{member.since}</p>
+                <p className="text-white/40 text-sm leading-relaxed">
                   {member.description}
                 </p>
               </motion.div>
@@ -185,13 +185,13 @@ export default function UeberUns() {
       </section>
 
       {/* Timeline */}
-      <section className="py-20 lg:py-28 px-4 bg-white">
+      <section className="py-20 lg:py-28 px-4 bg-card/80 backdrop-blur-sm">
         <div className="max-w-4xl mx-auto">
           <motion.div {...fadeIn} className="mb-14 text-center">
             <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-primary/10 text-primary mb-5">
               Geschichte
             </span>
-            <h2 className="text-3xl lg:text-5xl font-bold text-foreground tracking-tight">
+            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight">
               Über 50 Jahre Handwerk
             </h2>
           </motion.div>
@@ -216,10 +216,10 @@ export default function UeberUns() {
                   {/* Content */}
                   <div className="pb-8">
                     <span className="text-sm font-bold text-primary">{item.year}</span>
-                    <h3 className="text-lg font-semibold text-foreground mt-1 mb-2">
+                    <h3 className="text-lg font-semibold text-white mt-1 mb-2">
                       {item.title}
                     </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{item.text}</p>
+                    <p className="text-white/40 text-sm leading-relaxed">{item.text}</p>
                   </div>
                 </motion.div>
               ))}
@@ -229,13 +229,13 @@ export default function UeberUns() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 lg:py-28 px-4 bg-muted/50 border-t border-border">
+      <section className="py-20 lg:py-28 px-4 bg-card/50 border-t border-white/5">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div {...fadeIn}>
-            <h2 className="text-3xl lg:text-5xl font-bold text-foreground tracking-tight mb-5">
+            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-5">
               Lernen Sie uns kennen
             </h2>
-            <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
+            <p className="text-lg text-white/40 mb-10 max-w-xl mx-auto">
               Besuchen Sie uns in Eching oder rufen Sie einfach an — wir freuen uns auf Ihr Projekt.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -247,7 +247,7 @@ export default function UeberUns() {
               </Link>
               <a
                 href="tel:08931926484"
-                className="px-8 py-4 border border-foreground/15 text-foreground font-medium rounded-full hover:bg-foreground/5 transition-all duration-300"
+                className="px-8 py-4 border border-foreground/15 text-white font-medium rounded-full hover:bg-foreground/5 transition-all duration-300"
               >
                 (089) 319 26 84
               </a>

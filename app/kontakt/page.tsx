@@ -60,10 +60,10 @@ export default function Kontakt() {
             <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-primary/10 text-primary mb-5">
               Kontakt
             </span>
-            <h1 className="text-4xl lg:text-6xl font-bold text-foreground tracking-tight mb-6">
+            <h1 className="text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6">
               Sprechen Sie <span className="text-primary">mit uns</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-white/40 max-w-2xl mx-auto leading-relaxed">
               Ob Beratung, Angebot oder Serviceanfrage — wir sind persönlich für Sie da.
               Rufen Sie an oder schreiben Sie uns.
             </p>
@@ -72,13 +72,13 @@ export default function Kontakt() {
       </section>
 
       {/* Content */}
-      <section className="py-20 lg:py-28 px-4 bg-white">
+      <section className="py-20 lg:py-28 px-4 bg-card/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             {/* Left: Contact info + hours */}
             <div>
               <motion.div {...fadeIn}>
-                <h2 className="text-2xl font-bold text-foreground mb-8">Kontaktdaten</h2>
+                <h2 className="text-2xl font-bold text-white mb-8">Kontaktdaten</h2>
                 <div className="space-y-6">
                   {CONTACT_INFO.map((item) => {
                     const content = (
@@ -97,10 +97,10 @@ export default function Kontakt() {
                           </svg>
                         </div>
                         <div>
-                          <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium mb-1">
+                          <p className="text-xs uppercase tracking-wider text-white/40 font-medium mb-1">
                             {item.label}
                           </p>
-                          <p className="text-foreground whitespace-pre-line font-medium">
+                          <p className="text-white whitespace-pre-line font-medium">
                             {item.value}
                           </p>
                         </div>
@@ -111,7 +111,7 @@ export default function Kontakt() {
                       <a
                         key={item.label}
                         href={item.href}
-                        className="block hover:bg-muted/50 rounded-xl p-3 -m-3 transition-colors"
+                        className="block hover:bg-card/50 rounded-xl p-3 -m-3 transition-colors"
                         target={item.href.startsWith("http") ? "_blank" : undefined}
                         rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                       >
@@ -128,19 +128,19 @@ export default function Kontakt() {
 
               {/* Opening hours */}
               <motion.div {...fadeIn} className="mt-12">
-                <h2 className="text-2xl font-bold text-foreground mb-6">Öffnungszeiten</h2>
-                <div className="rounded-2xl border border-border overflow-hidden">
+                <h2 className="text-2xl font-bold text-white mb-6">Öffnungszeiten</h2>
+                <div className="rounded-2xl border border-white/5 overflow-hidden">
                   {HOURS.map((item, i) => {
                     const isClosed = item.time === "Geschlossen";
                     return (
                       <div
                         key={item.day}
                         className={`flex justify-between items-center px-5 py-3.5 ${
-                          i < HOURS.length - 1 ? "border-b border-border" : ""
-                        } ${isClosed ? "bg-muted/30 text-muted-foreground" : ""}`}
+                          i < HOURS.length - 1 ? "border-b border-white/5" : ""
+                        } ${isClosed ? "bg-card/30 text-white/40" : ""}`}
                       >
                         <span className="text-sm font-medium">{item.day}</span>
-                        <span className={`text-sm ${isClosed ? "text-muted-foreground" : "text-foreground font-medium"}`}>
+                        <span className={`text-sm ${isClosed ? "text-white/40" : "text-white font-medium"}`}>
                           {item.time}
                         </span>
                       </div>
@@ -152,63 +152,63 @@ export default function Kontakt() {
 
             {/* Right: Contact form */}
             <motion.div {...fadeIn} transition={{ ...fadeIn.transition, delay: 0.15 }}>
-              <h2 className="text-2xl font-bold text-foreground mb-8">Nachricht senden</h2>
+              <h2 className="text-2xl font-bold text-white mb-8">Nachricht senden</h2>
               <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                    <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
                       Name
                     </label>
                     <input
                       type="text"
                       id="name"
                       placeholder="Ihr Name"
-                      className="w-full px-4 py-3 rounded-xl border border-border bg-white text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-white/5 bg-card/80 backdrop-blur-sm text-white placeholder:text-white/40/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     />
                   </div>
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
+                    <label htmlFor="phone" className="block text-sm font-medium text-white mb-2">
                       Telefon
                     </label>
                     <input
                       type="tel"
                       id="phone"
                       placeholder="Ihre Telefonnummer"
-                      className="w-full px-4 py-3 rounded-xl border border-border bg-white text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-white/5 bg-card/80 backdrop-blur-sm text-white placeholder:text-white/40/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
                     E-Mail
                   </label>
                   <input
                     type="email"
                     id="email"
                     placeholder="ihre@email.de"
-                    className="w-full px-4 py-3 rounded-xl border border-border bg-white text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-white/5 bg-card/80 backdrop-blur-sm text-white placeholder:text-white/40/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                   />
                 </div>
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="subject" className="block text-sm font-medium text-white mb-2">
                     Betreff
                   </label>
                   <input
                     type="text"
                     id="subject"
                     placeholder="Worum geht es?"
-                    className="w-full px-4 py-3 rounded-xl border border-border bg-white text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-white/5 bg-card/80 backdrop-blur-sm text-white placeholder:text-white/40/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-white mb-2">
                     Nachricht
                   </label>
                   <textarea
                     id="message"
                     rows={5}
                     placeholder="Beschreiben Sie Ihr Anliegen..."
-                    className="w-full px-4 py-3 rounded-xl border border-border bg-white text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-white/5 bg-card/80 backdrop-blur-sm text-white placeholder:text-white/40/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
                   />
                 </div>
                 <button
@@ -217,7 +217,7 @@ export default function Kontakt() {
                 >
                   Nachricht senden
                 </button>
-                <p className="text-xs text-muted-foreground text-center">
+                <p className="text-xs text-white/40 text-center">
                   Mit dem Absenden stimmen Sie unserer{" "}
                   <a href="/datenschutz" className="text-primary hover:underline">
                     Datenschutzerklärung

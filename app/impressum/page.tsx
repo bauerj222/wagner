@@ -6,18 +6,18 @@ export default function Impressum() {
   return (
     <main className="pt-32 pb-20 lg:pt-40 lg:pb-28 px-4">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-12">
+        <h1 className="text-4xl lg:text-5xl font-bold text-white tracking-tight mb-12">
           Impressum
         </h1>
 
         <div className="prose prose-neutral max-w-none space-y-10">
           {/* Company */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-white mb-4">
               Angaben gemäß § 5 TMG
             </h2>
-            <div className="text-muted-foreground leading-relaxed space-y-1">
-              <p className="font-semibold text-foreground">
+            <div className="text-white/40 leading-relaxed space-y-1">
+              <p className="font-semibold text-white">
                 Elektro Wagner GmbH &amp; Co. KG
               </p>
               <p>Erfurter Straße 7</p>
@@ -27,10 +27,10 @@ export default function Impressum() {
 
           {/* Represented by */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-white mb-4">
               Vertreten durch
             </h2>
-            <div className="text-muted-foreground leading-relaxed space-y-1">
+            <div className="text-white/40 leading-relaxed space-y-1">
               <p>Jürgen Wagner</p>
               <p>Sebastian Wagner</p>
             </div>
@@ -38,8 +38,8 @@ export default function Impressum() {
 
           {/* Contact */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">Kontakt</h2>
-            <div className="text-muted-foreground leading-relaxed space-y-1">
+            <h2 className="text-xl font-bold text-white mb-4">Kontakt</h2>
+            <div className="text-white/40 leading-relaxed space-y-1">
               <p>Telefon: (089) 319 26 84</p>
               <p>Telefax: (089) 319 66 51</p>
               <p>
@@ -56,10 +56,10 @@ export default function Impressum() {
 
           {/* Trade register */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-white mb-4">
               Handelsregister
             </h2>
-            <div className="text-muted-foreground leading-relaxed space-y-1">
+            <div className="text-white/40 leading-relaxed space-y-1">
               <p>Registergericht: Amtsgericht München</p>
               <p>Registernummer: HRA 113457</p>
             </div>
@@ -67,10 +67,10 @@ export default function Impressum() {
 
           {/* Tax ID */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-white mb-4">
               Umsatzsteuer-ID
             </h2>
-            <div className="text-muted-foreground leading-relaxed">
+            <div className="text-white/40 leading-relaxed">
               <p>
                 Umsatzsteuer-Identifikationsnummer gemäß §27a
                 Umsatzsteuergesetz: DE 340027235
@@ -80,10 +80,10 @@ export default function Impressum() {
 
           {/* Chamber */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-white mb-4">
               Aufsichtsbehörde / Kammer
             </h2>
-            <div className="text-muted-foreground leading-relaxed space-y-1">
+            <div className="text-white/40 leading-relaxed space-y-1">
               <p>Handwerkskammer für München und Oberbayern</p>
               <p>Max-Joseph-Straße 4</p>
               <p>80333 München</p>
@@ -102,10 +102,10 @@ export default function Impressum() {
 
           {/* Professional regulations */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-white mb-4">
               Berufsbezeichnung und berufsrechtliche Regelungen
             </h2>
-            <div className="text-muted-foreground leading-relaxed space-y-1">
+            <div className="text-white/40 leading-relaxed space-y-1">
               <p>Berufsbezeichnung: Elektrotechnikermeister</p>
               <p>Zuständige Kammer: Handwerkskammer für München und Oberbayern</p>
               <p>Verliehen in: Deutschland</p>
@@ -117,11 +117,11 @@ export default function Impressum() {
 
           {/* Insurance */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-white mb-4">
               Berufshaftpflichtversicherung
             </h2>
-            <div className="text-muted-foreground leading-relaxed space-y-1">
-              <p className="font-semibold text-foreground">Allianz AG</p>
+            <div className="text-white/40 leading-relaxed space-y-1">
+              <p className="font-semibold text-white">Allianz AG</p>
               <p>Räumlicher Geltungsbereich: EU-weit</p>
               <p className="mt-3">Vermittelt durch:</p>
               <p>Marcus Plattig</p>
@@ -132,10 +132,10 @@ export default function Impressum() {
 
           {/* Dispute resolution */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-white mb-4">
               Streitschlichtung
             </h2>
-            <div className="text-muted-foreground leading-relaxed space-y-3">
+            <div className="text-white/40 leading-relaxed space-y-3">
               <p>
                 Die Europäische Kommission stellt eine Plattform zur
                 Online-Streitbeilegung (OS) bereit:{" "}
@@ -158,10 +158,10 @@ export default function Impressum() {
 
           {/* Liability */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-white mb-4">
               Haftung für Inhalte
             </h2>
-            <div className="text-muted-foreground leading-relaxed space-y-3">
+            <div className="text-white/40 leading-relaxed space-y-3">
               <p>
                 Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene
                 Inhalte auf diesen Seiten nach den allgemeinen Gesetzen
@@ -184,10 +184,10 @@ export default function Impressum() {
 
           {/* Links liability */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-white mb-4">
               Haftung für Links
             </h2>
-            <div className="text-muted-foreground leading-relaxed space-y-3">
+            <div className="text-white/40 leading-relaxed space-y-3">
               <p>
                 Unser Angebot enthält Links zu externen Websites Dritter, auf
                 deren Inhalte wir keinen Einfluss haben. Deshalb können wir für
@@ -209,10 +209,10 @@ export default function Impressum() {
 
           {/* Copyright */}
           <section>
-            <h2 className="text-xl font-bold text-foreground mb-4">
+            <h2 className="text-xl font-bold text-white mb-4">
               Urheberrecht
             </h2>
-            <div className="text-muted-foreground leading-relaxed space-y-3">
+            <div className="text-white/40 leading-relaxed space-y-3">
               <p>
                 Die durch die Seitenbetreiber erstellten Inhalte und Werke auf
                 diesen Seiten unterliegen dem deutschen Urheberrecht. Die
