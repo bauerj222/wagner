@@ -90,6 +90,12 @@ body {
   background-size: 24px 24px;
 }
 
+/* Marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* Noise texture overlay */
 .noise::after {
   content: "";
