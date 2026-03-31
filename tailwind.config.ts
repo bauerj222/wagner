@@ -9,40 +9,32 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        card: "var(--card)",
-        "card-foreground": "var(--card-foreground)",
-        muted: "var(--muted)",
-        "muted-foreground": "var(--muted-foreground)",
-        border: "var(--border)",
-        primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
-        },
+        background: "#0f1115",
+        foreground: "#d4d4d8",
+        card: "#16181d",
+        "card-foreground": "#d4d4d8",
+        muted: "#1c1e24",
+        "muted-foreground": "#71717a",
+        border: "rgba(255,255,255,0.06)",
+        primary: { DEFAULT: "#e85d04", foreground: "#fff" },
+        secondary: { DEFAULT: "#1c1e24", foreground: "#d4d4d8" },
+        accent: { DEFAULT: "#f48c06", foreground: "#fff" },
+      },
+      backgroundImage: {
+        "gradient-conic": "conic-gradient(var(--conic-position), var(--tw-gradient-stops))",
       },
       animation: {
-        first: "moveVertical 30s ease infinite",
-        second: "moveInCircle 20s reverse infinite",
-        third: "moveInCircle 40s linear infinite",
-        fourth: "moveHorizontal 40s ease infinite",
-        fifth: "moveInCircle 20s ease infinite",
+        marquee: "marquee var(--duration) linear infinite",
+        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
       },
       keyframes: {
-        moveHorizontal: {
-          "0%": { transform: "translateX(-50%) translateY(-10%)" },
-          "50%": { transform: "translateX(50%) translateY(10%)" },
-          "100%": { transform: "translateX(-50%) translateY(-10%)" },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(calc(-100% - var(--gap)))" },
         },
-        moveInCircle: {
-          "0%": { transform: "rotate(0deg)" },
-          "50%": { transform: "rotate(180deg)" },
-          "100%": { transform: "rotate(360deg)" },
-        },
-        moveVertical: {
-          "0%": { transform: "translateY(-50%)" },
-          "50%": { transform: "translateY(50%)" },
-          "100%": { transform: "translateY(-50%)" },
+        "marquee-vertical": {
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(calc(-100% - var(--gap)))" },
         },
       },
     },

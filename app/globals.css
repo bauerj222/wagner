@@ -5,13 +5,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
-  --background: #060606;
-  --surface: #0c0c0c;
-  --foreground: #e5e5e5;
-  --muted: #555;
-  --border: rgba(255,255,255,0.05);
-  --accent: #e85d04;
-  --accent-soft: #f48c06;
   --font-body: 'DM Sans', sans-serif;
   --font-display: 'Playfair Display', serif;
 }
@@ -20,8 +13,8 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #0f1115;
+  color: #d4d4d8;
   font-family: var(--font-body);
   font-size: 15px;
   line-height: 1.6;
@@ -32,46 +25,3 @@ body {
   background: rgba(232,93,4,0.2);
   color: #fff;
 }
-
-/* Marquee */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* Grain */
-.grain::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* Animated border on hover */
-@property --a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
-@keyframes spin { to { --a: 360deg; } }
-
-.card-glow {
-  position: relative;
-  border-radius: 16px;
-  background: var(--surface);
-}
-.card-glow::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: conic-gradient(from var(--a), transparent 70%, rgba(232,93,4,0.15), transparent 100%);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: spin 6s linear infinite;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-.card-glow:hover::before { opacity: 1; }
