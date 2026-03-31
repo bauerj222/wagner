@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { GridSpotlight, Counter, Marquee } from "@/components/HeroOrb";
+import { Counter, Marquee } from "@/components/HeroOrb";
+import AuroraHero from "@/components/AuroraHero";
 
 const reveal = {
   initial: { opacity: 0, y: 20 },
@@ -22,16 +22,9 @@ const SERVICES = [
 ];
 
 function Hero() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const o = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <GridSpotlight />
-
-      <motion.div style={{ y, opacity: o }} className="relative z-10 max-w-3xl mx-auto px-5 text-center pt-28 pb-20">
+    <AuroraHero>
+      <div className="max-w-3xl mx-auto px-5 text-center pt-28 pb-20">
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -81,10 +74,8 @@ function Hero() {
             (089) 319 26 84
           </a>
         </motion.div>
-      </motion.div>
-
-      <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
-    </section>
+      </div>
+    </AuroraHero>
   );
 }
 

@@ -30,6 +30,28 @@ body {
   color: #fff;
 }
 
+/* Aurora beams */
+@keyframes beam-rise {
+  0% { transform: translateY(100%) scaleY(0); opacity: 0; }
+  10% { opacity: 1; }
+  50% { transform: translateY(-30%) scaleY(1); opacity: 0.8; }
+  100% { transform: translateY(-200%) scaleY(0.5); opacity: 0; }
+}
+
+/* Gradient animation layers */
+@keyframes grad-drift-v {
+  0% { transform: translateY(-10%); }
+  100% { transform: translateY(10%); }
+}
+@keyframes grad-drift-c {
+  0% { transform: translate(-5%, -5%) rotate(0deg); }
+  100% { transform: translate(5%, 5%) rotate(30deg); }
+}
+@keyframes grad-drift-h {
+  0% { transform: translateX(-10%); }
+  100% { transform: translateX(10%); }
+}
+
 /* Marquee */
 @keyframes marquee {
   0% { transform: translateX(0); }
