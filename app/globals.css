@@ -2,16 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Serif:ital@0;1&display=swap');
+
 :root {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-  --card: rgba(255,255,255,0.03);
-  --card-foreground: #fafafa;
-  --muted: #171717;
-  --muted-foreground: #737373;
+  --background: #050505;
+  --foreground: #e8e8e8;
+  --card: rgba(255,255,255,0.025);
+  --card-foreground: #e8e8e8;
+  --muted: #141414;
+  --muted-foreground: #666;
   --border: rgba(255,255,255,0.06);
   --primary: #ef4444;
   --primary-foreground: #FFFFFF;
+  --font-display: 'Cabinet Grotesk', sans-serif;
+  --font-serif: 'Instrument Serif', serif;
 }
 
 html {
@@ -21,35 +25,14 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-display);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.25);
   color: #fff;
-}
-
-/* Aurora beams */
-@keyframes beam-rise {
-  0% { transform: translateY(100%) scaleY(0); opacity: 0; }
-  10% { opacity: 1; }
-  50% { transform: translateY(-30%) scaleY(1); opacity: 0.8; }
-  100% { transform: translateY(-200%) scaleY(0.5); opacity: 0; }
-}
-
-/* Gradient animation layers */
-@keyframes grad-drift-v {
-  0% { transform: translateY(-10%); }
-  100% { transform: translateY(10%); }
-}
-@keyframes grad-drift-c {
-  0% { transform: translate(-5%, -5%) rotate(0deg); }
-  100% { transform: translate(5%, 5%) rotate(30deg); }
-}
-@keyframes grad-drift-h {
-  0% { transform: translateX(-10%); }
-  100% { transform: translateX(10%); }
 }
 
 /* Marquee */
@@ -88,15 +71,19 @@ body {
   pointer-events: none;
 }
 
-/* Grid background */
-.grid-bg {
-  background-size: 64px 64px;
-  background-image:
-    linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+/* Hero gradient */
+.hero-gradient {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(239,68,68,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 30% 60%, rgba(200,30,30,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 70% 30%, rgba(180,20,20,0.08) 0%, transparent 50%),
+    var(--background);
 }
 
-/* Spotlight */
-.spotlight {
-  background: radial-gradient(600px circle at var(--x, 50%) var(--y, 50%), rgba(239,68,68,0.04), transparent 60%);
+/* Grid */
+.grid-bg {
+  background-size: 80px 80px;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.018) 1px, transparent 1px);
 }
