@@ -57,13 +57,13 @@ export default function Kontakt() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
           >
-            <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-primary/10 text-primary mb-5">
+            <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-red-500/10 text-red-500 mb-5">
               Kontakt
             </span>
             <h1 className="text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6">
-              Sprechen Sie <span className="text-primary">mit uns</span>
+              Sprechen Sie <span className="text-red-500">mit uns</span>
             </h1>
-            <p className="text-lg text-white/40 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed">
               Ob Beratung, Angebot oder Serviceanfrage — wir sind persönlich für Sie da.
               Rufen Sie an oder schreiben Sie uns.
             </p>
@@ -72,7 +72,7 @@ export default function Kontakt() {
       </section>
 
       {/* Content */}
-      <section className="py-20 lg:py-28 px-4 bg-card/80 backdrop-blur-sm">
+      <section className="py-20 lg:py-28 px-4 bg-[#0f0f0f]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             {/* Left: Contact info + hours */}
@@ -83,9 +83,9 @@ export default function Kontakt() {
                   {CONTACT_INFO.map((item) => {
                     const content = (
                       <div className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                        <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center shrink-0 mt-0.5">
                           <svg
-                            className="w-5 h-5 text-primary"
+                            className="w-5 h-5 text-red-500"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -97,7 +97,7 @@ export default function Kontakt() {
                           </svg>
                         </div>
                         <div>
-                          <p className="text-xs uppercase tracking-wider text-white/40 font-medium mb-1">
+                          <p className="text-xs uppercase tracking-wider text-zinc-500 font-medium mb-1">
                             {item.label}
                           </p>
                           <p className="text-white whitespace-pre-line font-medium">
@@ -111,7 +111,7 @@ export default function Kontakt() {
                       <a
                         key={item.label}
                         href={item.href}
-                        className="block hover:bg-card/50 rounded-xl p-3 -m-3 transition-colors"
+                        className="block hover:bg-[#0f0f0f] rounded-xl p-3 -m-3 transition-colors"
                         target={item.href.startsWith("http") ? "_blank" : undefined}
                         rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                       >
@@ -129,18 +129,18 @@ export default function Kontakt() {
               {/* Opening hours */}
               <motion.div {...fadeIn} className="mt-12">
                 <h2 className="text-2xl font-bold text-white mb-6">Öffnungszeiten</h2>
-                <div className="rounded-2xl border border-white/5 overflow-hidden">
+                <div className="rounded-2xl border border-white/[0.04] overflow-hidden">
                   {HOURS.map((item, i) => {
                     const isClosed = item.time === "Geschlossen";
                     return (
                       <div
                         key={item.day}
                         className={`flex justify-between items-center px-5 py-3.5 ${
-                          i < HOURS.length - 1 ? "border-b border-white/5" : ""
-                        } ${isClosed ? "bg-card/30 text-white/40" : ""}`}
+                          i < HOURS.length - 1 ? "border-b border-white/[0.04]" : ""
+                        } ${isClosed ? "bg-[#0a0a0a] text-zinc-500" : ""}`}
                       >
                         <span className="text-sm font-medium">{item.day}</span>
-                        <span className={`text-sm ${isClosed ? "text-white/40" : "text-white font-medium"}`}>
+                        <span className={`text-sm ${isClosed ? "text-zinc-500" : "text-white font-medium"}`}>
                           {item.time}
                         </span>
                       </div>
@@ -163,7 +163,7 @@ export default function Kontakt() {
                       type="text"
                       id="name"
                       placeholder="Ihr Name"
-                      className="w-full px-4 py-3 rounded-xl border border-white/5 bg-card/80 backdrop-blur-sm text-white placeholder:text-white/40/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-white/[0.04] bg-[#0f0f0f] text-white placeholder:text-zinc-500/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     />
                   </div>
                   <div>
@@ -174,7 +174,7 @@ export default function Kontakt() {
                       type="tel"
                       id="phone"
                       placeholder="Ihre Telefonnummer"
-                      className="w-full px-4 py-3 rounded-xl border border-white/5 bg-card/80 backdrop-blur-sm text-white placeholder:text-white/40/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-white/[0.04] bg-[#0f0f0f] text-white placeholder:text-zinc-500/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                     />
                   </div>
                 </div>
@@ -186,7 +186,7 @@ export default function Kontakt() {
                     type="email"
                     id="email"
                     placeholder="ihre@email.de"
-                    className="w-full px-4 py-3 rounded-xl border border-white/5 bg-card/80 backdrop-blur-sm text-white placeholder:text-white/40/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-white/[0.04] bg-[#0f0f0f] text-white placeholder:text-zinc-500/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                   />
                 </div>
                 <div>
@@ -197,7 +197,7 @@ export default function Kontakt() {
                     type="text"
                     id="subject"
                     placeholder="Worum geht es?"
-                    className="w-full px-4 py-3 rounded-xl border border-white/5 bg-card/80 backdrop-blur-sm text-white placeholder:text-white/40/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                    className="w-full px-4 py-3 rounded-xl border border-white/[0.04] bg-[#0f0f0f] text-white placeholder:text-zinc-500/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                   />
                 </div>
                 <div>
@@ -208,18 +208,18 @@ export default function Kontakt() {
                     id="message"
                     rows={5}
                     placeholder="Beschreiben Sie Ihr Anliegen..."
-                    className="w-full px-4 py-3 rounded-xl border border-white/5 bg-card/80 backdrop-blur-sm text-white placeholder:text-white/40/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-white/[0.04] bg-[#0f0f0f] text-white placeholder:text-zinc-500/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary-700 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-lg shadow-primary/20"
+                  className="w-full px-8 py-4 bg-primary text-red-500-foreground font-semibold rounded-full hover:bg-primary-700 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-lg shadow-primary/20"
                 >
                   Nachricht senden
                 </button>
-                <p className="text-xs text-white/40 text-center">
+                <p className="text-xs text-zinc-500 text-center">
                   Mit dem Absenden stimmen Sie unserer{" "}
-                  <a href="/datenschutz" className="text-primary hover:underline">
+                  <a href="/datenschutz" className="text-red-500 hover:underline">
                     Datenschutzerklärung
                   </a>{" "}
                   zu.

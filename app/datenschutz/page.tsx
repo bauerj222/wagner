@@ -9,7 +9,7 @@ export default function Datenschutz() {
         <h1 className="text-4xl lg:text-5xl font-bold text-white tracking-tight mb-12">
           Datenschutz&shy;erkl&auml;rung
         </h1>
-        <div className="prose prose-neutral max-w-none text-white/40 leading-relaxed space-y-8">
+        <div className="prose prose-neutral max-w-none text-zinc-500 leading-relaxed space-y-8">
           <section>
             <h2 className="text-xl font-semibold text-white mt-0">1. Datenschutz auf einen Blick</h2>
             <h3 className="text-base font-semibold text-white">Allgemeine Hinweise</h3>

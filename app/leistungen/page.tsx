@@ -108,13 +108,13 @@ export default function Leistungen() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] as const }}
           >
-            <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-primary/10 text-primary mb-5">
+            <span className="inline-block rounded-full px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] font-semibold bg-red-500/10 text-red-500 mb-5">
               Unsere Leistungen
             </span>
             <h1 className="text-4xl lg:text-6xl font-bold text-white tracking-tight mb-6">
-              Alles aus <span className="text-primary">einer Hand</span>
+              Alles aus <span className="text-red-500">einer Hand</span>
             </h1>
-            <p className="text-lg text-white/40 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed">
               Von der Planung bis zur Fertigstellung bieten wir Ihnen das komplette Leistungsspektrum
               eines Innungs-Meisterbetriebs. Fachgerecht, termingerecht und zuverlässig.
             </p>
@@ -123,22 +123,22 @@ export default function Leistungen() {
       </section>
 
       {/* Services detail */}
-      <section className="py-20 lg:py-28 px-4 bg-card/80 backdrop-blur-sm">
+      <section className="py-20 lg:py-28 px-4 bg-[#0f0f0f]">
         <div className="max-w-7xl mx-auto space-y-12">
           {SERVICES.map((service, i) => (
             <motion.div
               key={service.title}
               {...fadeIn}
               transition={{ ...fadeIn.transition, delay: i * 0.05 }}
-              className="group rounded-2xl border border-white/5 bg-card/80 backdrop-blur-sm hover:shadow-lg hover:border-primary/20 transition-all duration-500 overflow-hidden"
+              className="group rounded-2xl border border-white/[0.04] bg-[#0f0f0f] hover:shadow-lg hover:border-primary/20 transition-all duration-500 overflow-hidden"
             >
               <div className="p-8 lg:p-10">
                 <div className="flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-10">
                   {/* Icon + title */}
                   <div className="lg:w-1/3 shrink-0">
-                    <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <div className="w-14 h-14 rounded-xl bg-red-500/10 flex items-center justify-center mb-4">
                       <svg
-                        className="w-7 h-7 text-primary"
+                        className="w-7 h-7 text-red-500"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -149,22 +149,22 @@ export default function Leistungen() {
                         <path d={service.icon} />
                       </svg>
                     </div>
-                    <h2 className="text-2xl font-bold text-white mb-1 group-hover:text-primary transition-colors">
+                    <h2 className="text-2xl font-bold text-white mb-1 group-hover:text-red-500 transition-colors">
                       {service.title}
                     </h2>
-                    <p className="text-sm text-primary font-medium">{service.subtitle}</p>
+                    <p className="text-sm text-red-500 font-medium">{service.subtitle}</p>
                   </div>
 
                   {/* Description + details */}
                   <div className="lg:w-2/3">
-                    <p className="text-white/40 leading-relaxed mb-6">
+                    <p className="text-zinc-500 leading-relaxed mb-6">
                       {service.description}
                     </p>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {service.details.map((detail) => (
                         <li key={detail} className="flex items-start gap-2 text-sm text-white">
                           <svg
-                            className="w-4 h-4 text-primary mt-0.5 shrink-0"
+                            className="w-4 h-4 text-red-500 mt-0.5 shrink-0"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -189,20 +189,20 @@ export default function Leistungen() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 lg:py-28 px-4 bg-card/50 border-t border-white/5">
+      <section className="py-20 lg:py-28 px-4 bg-[#0f0f0f] border-t border-white/[0.04]">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div {...fadeIn}>
             <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight mb-5">
               Interesse geweckt?
             </h2>
-            <p className="text-lg text-white/40 mb-10 max-w-xl mx-auto">
+            <p className="text-lg text-zinc-500 mb-10 max-w-xl mx-auto">
               Wir beraten Sie gerne persönlich und erstellen Ihnen ein unverbindliches Angebot
               für Ihr Projekt.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/kontakt"
-                className="px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary-700 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-lg shadow-primary/20"
+                className="px-8 py-4 bg-primary text-red-500-foreground font-semibold rounded-full hover:bg-primary-700 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-lg shadow-primary/20"
               >
                 Jetzt Kontakt aufnehmen
               </Link>
